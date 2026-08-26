@@ -1,0 +1,40 @@
+SITO "I MIEI VIDEOGIOCHI" - PRONTO PER GITHUB PAGES
+
+CONTENUTO
+- index.html                 Homepage del sito
+- style.css                  Grafica del sito
+- app.js                     Piccolo script della homepage
+- games/battlefield/         Battlefield giocabile online
+- downloads/                 ZIP di Battlefield per giocare offline
+- .nojekyll                  Impedisce a GitHub Pages di elaborare il sito con Jekyll
+
+COME PUBBLICARLO GRATIS SU GITHUB PAGES
+
+1. Crea un account gratuito su GitHub, se non lo hai già.
+2. Crea un nuovo repository, ad esempio:
+      miei-videogiochi
+3. Impostalo PUBLIC.
+4. Carica TUTTI i file e le cartelle contenuti in questa cartella nella radice del repository.
+   IMPORTANTE: index.html deve vedersi subito nella pagina principale del repository,
+   non dentro un'ulteriore cartella.
+5. Nel repository vai su:
+      Settings > Pages
+6. In "Build and deployment":
+      Source: Deploy from a branch
+      Branch: main
+      Folder: / (root)
+7. Salva.
+8. GitHub mostrerà l'indirizzo pubblico del sito.
+
+Esempio:
+https://tuonome.github.io/miei-videogiochi/
+
+COME AGGIUNGERE UN ALTRO GIOCO
+- Crea una cartella dentro "games", ad esempio:
+      games/nuovo-gioco/
+- Inserisci lì il suo index.html e gli eventuali file necessari.
+- Aggiungi una nuova scheda nella homepage copiando la struttura della scheda Battlefield.
+- Il collegamento sarà:
+      games/nuovo-gioco/index.html
+
+Tutto il sito e Battlefield sono stati preparati senza dipendenze obbligatorie da Internet.

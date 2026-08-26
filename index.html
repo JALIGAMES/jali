@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Una raccolta di videogiochi creati da me e giocabili direttamente dal browser.">
+  <title>I miei videogiochi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="grid-bg" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="./" aria-label="Home">
+        <span class="brand-mark">◼</span>
+        <span>PIXEL VAULT</span>
+      </a>
+      <a class="nav-link" href="#giochi">GIOCHI</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-copy">
+        <p class="eyebrow">ARCADE PERSONALE // ONLINE</p>
+        <h1>I MIEI<br><span>VIDEOGIOCHI</span></h1>
+        <p class="intro">
+          Una piccola raccolta di giochi creati da me.
+          Puoi giocarli direttamente dal browser oppure scaricarli per usarli offline.
+        </p>
+        <a class="primary-button" href="#giochi">VEDI I GIOCHI <span>↓</span></a>
+      </div>
+
+      <div class="hero-terminal" aria-label="Stato arcade">
+        <div class="terminal-bar">
+          <span></span><span></span><span></span>
+          <strong>ARCADE_STATUS.EXE</strong>
+        </div>
+        <div class="terminal-screen">
+          <p>&gt; archivio giochi inizializzato</p>
+          <p>&gt; modalità browser: <b>ONLINE</b></p>
+          <p>&gt; modalità download: <b>DISPONIBILE</b></p>
+          <p>&gt; giochi pubblicati: <b>01</b></p>
+          <div class="pixel-scene">
+            <div class="moon"></div>
+            <div class="mountains back"></div>
+            <div class="mountains front"></div>
+            <div class="soldier"></div>
+            <div class="ground"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="giochi" class="games-section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LIBRERIA // 01</p>
+            <h2>SCEGLI UNA MISSIONE</h2>
+          </div>
+          <p class="section-note">Nuovi giochi potranno essere aggiunti qui.</p>
+        </div>
+
+        <div class="games-grid">
+          <article class="game-card featured">
+            <div class="game-art battlefield-art" aria-hidden="true">
+              <div class="scanline"></div>
+              <div class="art-sun"></div>
+              <div class="art-hill h1"></div>
+              <div class="art-hill h2"></div>
+              <div class="art-tank">
+                <i></i><i></i><i></i>
+              </div>
+              <div class="art-player"></div>
+              <div class="art-ground"></div>
+              <div class="art-label">22 FRONTI</div>
+            </div>
+
+            <div class="game-body">
+              <div class="game-meta">
+                <span class="status-dot"></span>
+                <span>GIOCABILE ORA</span>
+                <span class="genre">ARCADE / SHOOTER</span>
+              </div>
+              <h3>BATTLEFIELD</h3>
+              <p>
+                Attraversa 22 fronti, affronta soldati e mezzi corazzati,
+                raccogli crediti e potenzia il tuo equipaggiamento.
+              </p>
+              <div class="tags">
+                <span>22 FRONTI</span>
+                <span>ARMI</span>
+                <span>SKIN</span>
+                <span>VEICOLI</span>
+              </div>
+              <div class="actions">
+                <a class="primary-button" href="games/battlefield/index.html">GIOCA ORA <span>▶</span></a>
+                <a class="secondary-button" href="downloads/Battlefield_22_fronti_offline.zip" download>SCARICA OFFLINE</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card placeholder">
+            <div class="placeholder-plus">+</div>
+            <p class="eyebrow">PROSSIMA USCITA</p>
+            <h3>NUOVO GIOCO</h3>
+            <p>Questo spazio è già pronto per il prossimo videogioco.</p>
+          </article>
+
+          <article class="game-card placeholder">
+            <div class="placeholder-plus">+</div>
+            <p class="eyebrow">PROSSIMA USCITA</p>
+            <h3>NUOVO GIOCO</h3>
+            <p>Aggiungi una nuova cartella e una nuova scheda quando vuoi.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="about container">
+      <div>
+        <p class="eyebrow">COME FUNZIONA</p>
+        <h2>TUTTO IN UN SOLO SITO</h2>
+      </div>
+      <div class="about-grid">
+        <div><strong>01</strong><p>Il visitatore apre il sito.</p></div>
+        <div><strong>02</strong><p>Sceglie un gioco.</p></div>
+        <div><strong>03</strong><p>Gioca subito nel browser.</p></div>
+        <div><strong>04</strong><p>Oppure scarica la versione offline.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>PIXEL VAULT // MY GAMES</span>
+      <span id="year"></span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
