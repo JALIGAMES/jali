@@ -3,118 +3,177 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Una raccolta di videogiochi creati da me, giocabili online o scaricabili.">
-  <title>La mia sala giochi</title>
+  <meta name="description" content="Una raccolta di videogiochi creati da me. Gioca online o scarica la versione offline.">
+  <title>JALI Games</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
   <header class="topbar">
     <div class="container nav">
-      <a href="./" class="logo">GAME ROOM</a>
+      <a href="./" class="brand">
+        <span class="brand-badge">J</span>
+        <span>JALI GAMES</span>
+      </a>
       <nav>
         <a href="#giochi">Giochi</a>
-        <a href="#info">Info</a>
+        <a href="#come">Come funziona</a>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="hero container">
-      <div class="hero-text">
-        <span class="pill">LA MIA RACCOLTA</span>
-        <h1>Videogiochi<br>creati da me</h1>
-        <p>Una pagina dove raccogliere tutti i miei giochi. Puoi provarli direttamente online oppure scaricarli per giocare offline.</p>
-        <a class="btn primary" href="#giochi">Scopri i giochi</a>
+      <div class="hero-copy">
+        <span class="eyebrow">MY GAME COLLECTION</span>
+        <h1>Benvenuti nella mia<br><span>sala giochi online</span></h1>
+        <p>
+          Qui raccolgo i videogiochi creati da me.
+          Puoi provarli direttamente nel browser oppure scaricarli per giocarci offline dal tuo PC.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#giochi">Scopri i giochi</a>
+          <a class="btn btn-secondary" href="battlefield.html">Gioca subito</a>
+        </div>
       </div>
 
-      <div class="hero-card">
-        <div class="mini-window">
-          <div class="window-bar">
-            <span></span><span></span><span></span>
+      <div class="hero-visual">
+        <div class="console-card">
+          <div class="console-screen">
+            <div class="stars"></div>
+            <div class="planet"></div>
+            <div class="mountain m1"></div>
+            <div class="mountain m2"></div>
+            <div class="player-pixel"></div>
+            <div class="coin c1"></div>
+            <div class="coin c2"></div>
+            <div class="coin c3"></div>
+            <div class="ground"></div>
+            <div class="screen-label">READY TO PLAY</div>
           </div>
-          <div class="screen">
-            <div class="pixel p1"></div>
-            <div class="pixel p2"></div>
-            <div class="pixel p3"></div>
-            <div class="pixel p4"></div>
-            <div class="pixel p5"></div>
-            <p>READY TO PLAY</p>
+          <div class="console-controls">
+            <div class="dpad">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="action-buttons">
+              <i></i><i></i><i></i><i></i>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="stats container">
+      <div class="stat-card">
+        <strong>1</strong>
+        <span>Gioco già online</span>
+      </div>
+      <div class="stat-card">
+        <strong>Browser</strong>
+        <span>Giocabile senza installazione</span>
+      </div>
+      <div class="stat-card">
+        <strong>Offline</strong>
+        <span>Disponibile anche da scaricare</span>
       </div>
     </section>
 
     <section id="giochi" class="games-section">
       <div class="container">
-        <div class="section-title">
+        <div class="section-head">
           <div>
-            <span class="pill">LIBRERIA</span>
-            <h2>I miei giochi</h2>
+            <span class="eyebrow">LIBRERIA GIOCHI</span>
+            <h2>I miei titoli</h2>
           </div>
-          <p>Aggiungerò qui i prossimi titoli.</p>
+          <p>Questa pagina è pronta per ospitare anche i prossimi giochi.</p>
         </div>
 
         <div class="games-grid">
-          <article class="game-card">
-            <div class="cover battlefield">
-              <span class="badge">AZIONE</span>
-              <div class="cover-title">BATTLEFIELD</div>
-              <div class="cover-subtitle">22 FRONTI</div>
+          <article class="game-card featured">
+            <div class="game-cover battlefield-cover">
+              <span class="chip chip-orange">ACTION</span>
+              <div class="cover-art">
+                <div class="sun"></div>
+                <div class="hill back"></div>
+                <div class="hill front"></div>
+                <div class="tank"><i></i><i></i><i></i></div>
+                <div class="runner"></div>
+              </div>
+              <div class="cover-info">
+                <div class="mini-title">BATTLEFIELD</div>
+                <div class="mini-sub">22 FRONTI · ARCADE SHOOTER</div>
+              </div>
             </div>
             <div class="game-content">
+              <div class="meta-row">
+                <span class="dot live"></span>
+                <span>Disponibile ora</span>
+              </div>
               <h3>Battlefield</h3>
-              <p>Uno shooter arcade a scorrimento con 22 fronti, armi, skin, alleati e veicoli.</p>
-              <div class="tags">
+              <p>
+                Uno shooter arcade a scorrimento con 22 fronti, armi, skin, soldati alleati
+                e veicoli sbloccabili.
+              </p>
+              <div class="tag-row">
                 <span>Shooter</span>
                 <span>Arcade</span>
-                <span>Single player</span>
+                <span>Single Player</span>
+                <span>Offline</span>
               </div>
               <div class="actions">
-                <a class="btn primary" href="battlefield.html">Gioca ora</a>
-                <a class="btn secondary" href="downloads/Battlefield_22_fronti_offline.zip" download>Scarica offline</a>
+                <a class="btn btn-primary" href="battlefield.html">Gioca ora</a>
+                <a class="btn btn-secondary" href="downloads/Battlefield_22_fronti_offline.zip" download>Scarica offline</a>
               </div>
             </div>
           </article>
 
-          <article class="game-card placeholder">
-            <div class="plus">+</div>
-            <h3>Prossimo gioco</h3>
-            <p>Questo spazio è pronto per il prossimo titolo.</p>
+          <article class="game-card placeholder purple">
+            <div class="placeholder-icon">+</div>
+            <h3>Nuovo gioco</h3>
+            <p>Spazio pronto per il prossimo titolo.</p>
           </article>
 
-          <article class="game-card placeholder">
-            <div class="plus">+</div>
-            <h3>Prossimo gioco</h3>
-            <p>Puoi aggiungere qui un gioco completamente diverso.</p>
+          <article class="game-card placeholder cyan">
+            <div class="placeholder-icon">+</div>
+            <h3>Nuovo gioco</h3>
+            <p>Qui potrai inserire un platform, puzzle o altro.</p>
           </article>
 
-          <article class="game-card placeholder">
-            <div class="plus">+</div>
-            <h3>Prossimo gioco</h3>
-            <p>La grafica del sito resta neutra e adatta a qualsiasi genere.</p>
+          <article class="game-card placeholder pink">
+            <div class="placeholder-icon">+</div>
+            <h3>Nuovo gioco</h3>
+            <p>La grafica del sito è generica e adatta a qualsiasi gioco.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="info" class="info-section">
-      <div class="container info-grid">
+    <section id="come" class="how-section">
+      <div class="container how-grid">
         <div>
-          <span class="pill">COME FUNZIONA</span>
-          <h2>Una sola pagina, tanti giochi</h2>
+          <span class="eyebrow">COME FUNZIONA</span>
+          <h2>Una pagina semplice, ma fatta bene</h2>
+          <p>
+            Seleziona un gioco, avvialo nel browser oppure scaricalo.
+            Quando vorrai aggiungere altri titoli, questa homepage è già pronta.
+          </p>
         </div>
         <div class="steps">
-          <div><strong>01</strong><span>Scegli un gioco</span></div>
-          <div><strong>02</strong><span>Aprilo nel browser</span></div>
-          <div><strong>03</strong><span>Oppure scaricalo</span></div>
+          <div class="step"><strong>01</strong><span>Apri la raccolta</span></div>
+          <div class="step"><strong>02</strong><span>Scegli il gioco</span></div>
+          <div class="step"><strong>03</strong><span>Gioca online</span></div>
+          <div class="step"><strong>04</strong><span>Oppure scarica offline</span></div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>
+  <footer class="footer">
     <div class="container footer-inner">
-      <span>GAME ROOM</span>
+      <span>JALI GAMES</span>
       <span id="year"></span>
     </div>
   </footer>

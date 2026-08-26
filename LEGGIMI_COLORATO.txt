@@ -1,0 +1,24 @@
+SITO JALI GAMES - VERSIONE PIU' BELLA E COLORATA
+
+Questa versione ha:
+- homepage molto più colorata e moderna
+- stile generico da collezione di videogiochi
+- Battlefield come primo gioco
+- collegamento funzionante a battlefield.html
+
+COME AGGIORNARE IL TUO REPOSITORY GITHUB
+1. Estrai questo ZIP.
+2. Nel repository jali carica TUTTI i file nella cartella principale.
+3. Sostituisci almeno questi file:
+   - index.html
+   - style.css
+   - app.js
+4. Mantieni anche:
+   - battlefield.html
+   - downloads/
+   - .nojekyll
+5. Aspetta 1-2 minuti.
+6. Apri il sito e fai CTRL + F5.
+
+Il link pubblico resta:
+https://alessiafrustagli-sudo.github.io/jali/
