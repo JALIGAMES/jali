@@ -1,0 +1,32 @@
+JALI GAMES - VERSIONE CON 4 GIOCHI
+
+Giochi inclusi:
+1. Battlefield
+2. Micio Caffè
+3. Hamster Parkour Dash
+4. Toy Repair Workshop
+
+COME AGGIORNARE IL SITO GITHUB
+1. Estrai questo ZIP.
+2. Apri il repository "jali" su GitHub.
+3. Carica TUTTI i file e le cartelle nella RADICE del repository.
+4. Sostituisci i vecchi file quando GitHub lo richiede.
+5. Nella radice devono vedersi:
+   index.html
+   style.css
+   app.js
+   battlefield.html
+   game-shell.css
+   games/
+   downloads/
+   .nojekyll
+6. Aspetta il completamento di GitHub Pages.
+7. Apri:
+   https://alessiafrustagli-sudo.github.io/jali/
+8. Fai CTRL + F5.
+
+NOTA SUI GIOCHI AIPPY
+I tre giochi provenienti da Aippy sono stati estratti dalla versione salvata nel browser.
+Il codice del gioco è incluso nel sito. Alcune immagini/audio dei progetti Aippy restano
+caricati dal CDN di Aippy, quindi per questi tre giochi serve una connessione Internet.
+Battlefield invece include già la versione offline scaricabile.
