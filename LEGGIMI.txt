@@ -1,16 +1,28 @@
-JALI GAMES - VERSIONE PULITA
+JALI GAMES - 7 GIOCHI + FIX
 
-Questa versione NON contiene cartelle e NON contiene ZIP interni.
+Questa versione contiene SOLO file, senza cartelle interne.
 
-Carica direttamente nella radice del repository GitHub questi file:
-- index.html
-- style.css
-- app.js
-- battlefield.html
-- micio-caffe.html
-- hamster-parkour.html
-- toy-repair.html
-- .nojekyll
+Giochi:
+1. Battlefield
+2. Micio Caffè
+3. Hamster Parkour Dash
+4. Toy Repair Workshop
+5. Kawaii Home & Style
+6. Boba Shop
+7. Cookie Factory Tycoon
 
-Il pulsante "Scarica offline" di Battlefield è stato rimosso.
-Tutti e quattro i giochi si aprono dal pulsante GIOCA.
+FIX:
+- Rimossa la J doppia dal logo: ora c'è l'icona 🎮 + JALI GAMES.
+- Battlefield è più compatto, centrato e non occupa più tutta la larghezza dello schermo.
+- Battlefield ha il pulsante ← JALI GAMES.
+- Aggiunti i 3 nuovi giochi.
+- I riferimenti locali alle immagini salvate dei nuovi giochi sono stati incorporati direttamente negli HTML.
+
+CARICAMENTO GITHUB
+1. Estrai questo ZIP.
+2. Nel repository jali: Add file > Upload files.
+3. Trascina TUTTI i file estratti.
+4. Sostituisci i file con lo stesso nome.
+5. Conferma il commit.
+6. Aspetta il deploy di GitHub Pages.
+7. Fai CTRL+F5 sul sito.

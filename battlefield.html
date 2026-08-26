@@ -608,8 +608,58 @@ video {
 }
 
 </style>
+
+<style id="jali-battlefield-fit">
+html{background:#151936}
+body{
+  background:linear-gradient(180deg,#151936,#20264a)!important;
+  min-height:100vh;
+  padding:58px 12px 28px;
+}
+.app-shell{
+  width:min(100%,1000px)!important;
+  min-height:auto!important;
+  margin:0 auto!important;
+  border-radius:18px;
+  box-shadow:0 18px 55px rgba(0,0,0,.35);
+}
+.app-shell > header,
+.app-shell > main{
+  max-width:936px!important;
+}
+@media(min-width:1024px){
+  .app-shell > main{
+    grid-template-columns:minmax(0,1fr) 205px!important;
+  }
+}
+#jali-home-button{
+  position:fixed;
+  left:12px;
+  top:10px;
+  z-index:99999;
+  display:inline-flex;
+  align-items:center;
+  min-height:38px;
+  padding:0 13px;
+  border-radius:12px;
+  border:2px solid #25244a;
+  background:#fff;
+  color:#25244a;
+  text-decoration:none;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:12px;
+  font-weight:900;
+  box-shadow:3px 3px 0 #25244a;
+}
+@media(max-width:700px){
+  body{padding:54px 6px 16px}
+  .app-shell{width:100%!important;border-radius:10px}
+}
+</style>
+
 </head>
  <body data-template-id="__page-root" style="background: rgb(23, 31, 24);">
+<a id="jali-home-button" href="index.html">← JALI GAMES</a>
   <div class="app-shell w-full px-4 py-5 md:px-8 md:py-8">
    <header class="relative mx-auto mb-5 flex w-full max-w-6xl flex-col justify-between gap-3 md:flex-row md:items-end">
     <div>
@@ -637,7 +687,7 @@ video {
        <p id="objective-text" class="hud-value mt-2 text-xs font-bold" aria-live="polite">SETTORE 1 / 3</p>
       </div>
       <div>
-       <p data-template-id="status-label" class="canva-text text-[10px] font-bold tracking-wider" style="color: rgb(208, 199, 146); font-weight: 700; font-style: normal; font-size: 16px;">SawwdTATO</p>
+       <p data-template-id="status-label" class="canva-text text-[10px] font-bold tracking-wider" style="color: rgb(208, 199, 146); font-weight: 700; font-style: normal; font-size: 16px;">STATO</p>
        <p id="status-text" class="hud-value mt-2 text-xs font-bold" aria-live="polite">IN ATTESA</p>
       </div>
      </div>
@@ -648,7 +698,7 @@ video {
         <p data-template-id="start-kicker" class="canva-text mb-3 text-xs font-bold tracking-[0.2em]" style="color: rgb(240, 212, 103); font-weight: 700; font-style: normal; font-size: 16px;">BRIEFING DI MISSIONE</p>
         <h2 data-template-id="start-title" class="canva-text mb-4 font-bold" style="color: rgb(255, 241, 200); font-weight: 700; font-style: normal; font-size: 24px;">ATTRAVERSA VENTIDUE FRONTI</h2>
         <p data-template-id="start-copy" class="canva-text mb-6 text-sm leading-6" style="color: rgb(227, 219, 177); font-weight: 400; font-style: normal; font-size: 16px;">I soldati sono più aggressivi e i carri armati presidiano le zone chiave. Avanza, raccogli crediti e rinforza la tua unità al bunker.</p>
-        <div class="flex flex-wrap justify-center gap-3"><button id="start-button" data-template-id="start-button-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">INIZIA MISSIONE</button><button id="open-armory" data-template-id="open-armory-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ARmeria</button><button id="open-skins" data-template-id="open-skins-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">SKIN</button><button id="open-recruitment" data-template-id="open-recruitment-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">RECLUTA SOLDATI</button><button id="open-vehicles" data-template-id="open-vehicles-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">VEICOLI</button>
+        <div class="flex flex-wrap justify-center gap-3"><button id="start-button" data-template-id="start-button-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">INIZIA MISSIONE</button><button id="open-armory" data-template-id="open-armory-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ARMERIA</button><button id="open-skins" data-template-id="open-skins-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">SKIN</button><button id="open-recruitment" data-template-id="open-recruitment-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">RECLUTA SOLDATI</button><button id="open-vehicles" data-template-id="open-vehicles-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">VEICOLI</button>
         </div>
         <div id="recruitment-screen" class="overlay is-hidden shop-overlay absolute inset-0 z-30 overflow-y-auto p-4 md:p-7">
          <section data-template-id="recruitment-panel" class="canva-panel mx-auto max-w-3xl border-2 p-5 shadow-[7px_7px_0_#070b08] md:p-7" aria-labelledby="recruitment-title" style="background: rgb(53, 67, 46); color: rgb(245, 237, 201);">
