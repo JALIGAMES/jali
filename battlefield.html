@@ -1,0 +1,1171 @@
+<!doctype html>
+<!-- Battlefield standalone offline build; Canva/network dependencies removed. -->
+<html lang="it"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Battlefield Pixel</title>
+  
+  
+  
+  
+  <style>
+    :root{--ink:#0e1510;--panel:#2e3a2a;--sand:#d7c783;--danger:#d65345}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Consolas,"Courier New",monospace;overflow-x:hidden;color:#f5edc9}
+    .app-shell{width:100%;min-height:100vh;position:relative;overflow:hidden;background-color:#0d1510;background-image:linear-gradient(rgba(91,112,74,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(91,112,74,.14) 1px,transparent 1px);background-size:8px 8px;border-top:2px solid #7960a0;border-left:2px solid #7960a0;border-right:2px solid #7960a0}.app-shell:after{content:"";position:absolute;inset:6px;pointer-events:none;border:1px solid rgba(121,96,160,.7);z-index:0}
+    .app-shell:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.3;background:radial-gradient(circle at 20% 20%,#73835422 0 2px,transparent 3px);background-size:20px 20px}
+    .game-frame{box-shadow:0 0 0 2px #d1c28a,0 0 0 4px #3b4931,8px 8px 0 #080d09,13px 13px 0 #36412d}
+    canvas{display:block;width:100%;aspect-ratio:16/9;image-rendering:pixelated;image-rendering:crisp-edges;background:#657044;cursor:crosshair}
+    .hud-value{color:#fff3c5;text-shadow:2px 2px 0 #11170f}
+    .overlay{transition:opacity .2s ease,visibility .2s ease}
+    .overlay.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .pixel-button{box-shadow:4px 4px 0 #111811;transition:transform .1s,box-shadow .1s,filter .1s}
+    .pixel-button:hover:not(:disabled){transform:translate(2px,2px);box-shadow:2px 2px 0 #111811;filter:brightness(1.12)}
+    .pixel-button:focus-visible{outline:3px solid #ffe78b;outline-offset:4px}
+    .pixel-button:disabled{cursor:not-allowed;filter:grayscale(.65) brightness(.68)}
+    .scanlines:after{content:"";pointer-events:none;position:absolute;inset:0;z-index:5;background:repeating-linear-gradient(0deg,rgba(0,0,0,.11) 0,rgba(0,0,0,.11) 1px,transparent 1px,transparent 4px);mix-blend-mode:multiply}
+    .key{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:25px;padding:0 5px;border:1px solid #bdb37c;border-bottom:3px solid #756d4d;background:#3b452f;color:#fff2c6;font-size:11px;box-shadow:2px 2px 0 #151b12}
+    .hud-grid>div{position:relative}
+    .hud-grid>div:not(:last-child):after{content:"";position:absolute;top:3px;right:-7px;width:1px;height:calc(100% - 6px);background:#75805b;opacity:.45}
+    .shop-card{min-height:166px;box-shadow:3px 3px 0 #101710;position:relative;overflow:hidden}.shop-card:before{content:"STOCK // ARMAMENTO";display:block;margin:-.25rem -.25rem .7rem;padding:.22rem .35rem;border-bottom:1px solid #65734d;color:#aeb986;font-size:8px;letter-spacing:.12em}.shop-card:after{content:"•••  ◼  •••";position:absolute;right:8px;bottom:7px;color:#718052;font-size:9px;letter-spacing:.08em}.shop-panel{min-height:calc(100vh - 3rem)}.shop-panel .grid{grid-auto-rows:minmax(166px,auto)}.shop-panel .shop-card{padding:1rem}.shop-panel .shop-card button{min-height:40px}
+    .shop-card.owned{outline:2px solid #e6cc67}
+    .shop-card.equipped{background:#52663d!important;outline:2px solid #fff0a1}
+    .shop-overlay{background:rgba(9,17,10,.94)}
+    @media(max-width:767px){.hud-grid>div:after{display:none}}
+  </style>
+  
+ 
+<style id="offline-tailwind">
+
+
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  box-sizing: border-box; 
+
+hr {
+  height: 0; 
+
+table {
+  text-indent: 0; 
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block; 
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+
+
+::placeholder {
+  opacity: 1;
+}
+
+
+
+@supports (not (-webkit-appearance: -apple-pay-button)) 
+
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+
+@layer properties;
+:root, :host {
+  --spacing: 0.25rem;
+  --container-md: 28rem;
+  --container-3xl: 48rem;
+  --container-5xl: 64rem;
+  --container-6xl: 72rem;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: calc(1 / 0.75);
+  --text-sm: 0.875rem;
+  --text-sm--line-height: calc(1.25 / 0.875);
+  --font-weight-bold: 700;
+  --tracking-wider: 0.05em;
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+.inset-0 {
+  inset: calc(var(--spacing) * 0);
+}
+.z-10 {
+  z-index: 10;
+}
+.z-20 {
+  z-index: 20;
+}
+.z-30 {
+  z-index: 30;
+}
+.mx-auto {
+  margin-inline: auto;
+}
+.mt-1 {
+  margin-top: calc(var(--spacing) * 1);
+}
+.mt-2 {
+  margin-top: calc(var(--spacing) * 2);
+}
+.mt-3 {
+  margin-top: calc(var(--spacing) * 3);
+}
+.mt-4 {
+  margin-top: calc(var(--spacing) * 4);
+}
+.mt-5 {
+  margin-top: calc(var(--spacing) * 5);
+}
+.mb-2 {
+  margin-bottom: calc(var(--spacing) * 2);
+}
+.mb-3 {
+  margin-bottom: calc(var(--spacing) * 3);
+}
+.mb-4 {
+  margin-bottom: calc(var(--spacing) * 4);
+}
+.mb-5 {
+  margin-bottom: calc(var(--spacing) * 5);
+}
+.mb-6 {
+  margin-bottom: calc(var(--spacing) * 6);
+}
+.block {
+  display: block;
+}
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+.h-3 {
+  height: calc(var(--spacing) * 3);
+}
+.h-full {
+  height: 100%;
+}
+.min-h-5 {
+  min-height: calc(var(--spacing) * 5);
+}
+.min-h-\[150px\] {
+  min-height: 150px;
+}
+.w-fit {
+  width: fit-content;
+}
+.w-full {
+  width: 100%;
+}
+.max-w-3xl {
+  max-width: var(--container-3xl);
+}
+.max-w-5xl {
+  max-width: var(--container-5xl);
+}
+.max-w-6xl {
+  max-width: var(--container-6xl);
+}
+.max-w-md {
+  max-width: var(--container-md);
+}
+.min-w-0 {
+  min-width: calc(var(--spacing) * 0);
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.items-center {
+  align-items: center;
+}
+.items-end {
+  align-items: flex-end;
+}
+.items-start {
+  align-items: flex-start;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
+.gap-2 {
+  gap: calc(var(--spacing) * 2);
+}
+.gap-3 {
+  gap: calc(var(--spacing) * 3);
+}
+.gap-4 {
+  gap: calc(var(--spacing) * 4);
+}
+.gap-5 {
+  gap: calc(var(--spacing) * 5);
+}
+.space-y-5 {
+  :where(& > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(calc(var(--spacing) * 5) * var(--tw-space-y-reverse));
+    margin-block-end: calc(calc(var(--spacing) * 5) * calc(1 - var(--tw-space-y-reverse)));
+  }
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-y-auto {
+  overflow-y: auto;
+}
+.border {
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+}
+.border-2 {
+  border-style: var(--tw-border-style);
+  border-width: 2px;
+}
+.border-4 {
+  border-style: var(--tw-border-style);
+  border-width: 4px;
+}
+.border-t {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+}
+.border-b {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 1px;
+}
+.border-\[\#0b110c\] {
+  border-color: #0b110c;
+}
+.border-\[\#101710\] {
+  border-color: #101710;
+}
+.border-\[\#859160\] {
+  border-color: #859160;
+}
+.border-\[\#879063\] {
+  border-color: #879063;
+}
+.bg-\[\#0d150de8\] {
+  background-color: #0d150de8;
+}
+.bg-\[\#19341ee8\] {
+  background-color: #19341ee8;
+}
+.bg-\[\#172016\] {
+  background-color: #172016;
+}
+.bg-\[\#351513e8\] {
+  background-color: #351513e8;
+}
+.bg-\[\#c64b40\] {
+  background-color: #c64b40;
+}
+.p-3 {
+  padding: calc(var(--spacing) * 3);
+}
+.p-4 {
+  padding: calc(var(--spacing) * 4);
+}
+.p-5 {
+  padding: calc(var(--spacing) * 5);
+}
+.p-6 {
+  padding: calc(var(--spacing) * 6);
+}
+.px-2 {
+  padding-inline: calc(var(--spacing) * 2);
+}
+.px-3 {
+  padding-inline: calc(var(--spacing) * 3);
+}
+.px-4 {
+  padding-inline: calc(var(--spacing) * 4);
+}
+.px-5 {
+  padding-inline: calc(var(--spacing) * 5);
+}
+.py-2 {
+  padding-block: calc(var(--spacing) * 2);
+}
+.py-3 {
+  padding-block: calc(var(--spacing) * 3);
+}
+.py-5 {
+  padding-block: calc(var(--spacing) * 5);
+}
+.pt-4 {
+  padding-top: calc(var(--spacing) * 4);
+}
+.pb-3 {
+  padding-bottom: calc(var(--spacing) * 3);
+}
+.pb-4 {
+  padding-bottom: calc(var(--spacing) * 4);
+}
+.text-center {
+  text-align: center;
+}
+.text-sm {
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+}
+.text-xs {
+  font-size: var(--text-xs);
+  line-height: var(--tw-leading, var(--text-xs--line-height));
+}
+.text-\[10px\] {
+  font-size: 10px;
+}
+.text-\[11px\] {
+  font-size: 11px;
+}
+.leading-4 {
+  --tw-leading: calc(var(--spacing) * 4);
+  line-height: calc(var(--spacing) * 4);
+}
+.leading-5 {
+  --tw-leading: calc(var(--spacing) * 5);
+  line-height: calc(var(--spacing) * 5);
+}
+.leading-6 {
+  --tw-leading: calc(var(--spacing) * 6);
+  line-height: calc(var(--spacing) * 6);
+}
+.leading-none {
+  --tw-leading: 1;
+  line-height: 1;
+}
+.font-bold {
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+}
+.tracking-\[0\.2em\] {
+  --tw-tracking: 0.2em;
+  letter-spacing: 0.2em;
+}
+.tracking-\[0\.18em\] {
+  --tw-tracking: 0.18em;
+  letter-spacing: 0.18em;
+}
+.tracking-wider {
+  --tw-tracking: var(--tracking-wider);
+  letter-spacing: var(--tracking-wider);
+}
+.text-\[\#f2e9c2\] {
+  color: #f2e9c2;
+}
+.text-\[\#f4d96e\] {
+  color: #f4d96e;
+}
+.shadow-\[4px_4px_0_\#111811\] {
+  --tw-shadow: 4px 4px 0 var(--tw-shadow-color, #111811);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.shadow-\[5px_5px_0_\#111811\] {
+  --tw-shadow: 5px 5px 0 var(--tw-shadow-color, #111811);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.shadow-\[7px_7px_0_\#070b08\] {
+  --tw-shadow: 7px 7px 0 var(--tw-shadow-color, #070b08);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.shadow-inner {
+  --tw-shadow: inset 0 2px 4px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.transition-\[width\] {
+  transition-property: width;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+.duration-150 {
+  --tw-duration: 150ms;
+  transition-duration: 150ms;
+}
+.sm\:grid-cols-2 {
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.sm\:grid-cols-3 {
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.sm\:flex-row {
+  @media (width >= 40rem) {
+    flex-direction: row;
+  }
+}
+.sm\:items-center {
+  @media (width >= 40rem) {
+    align-items: center;
+  }
+}
+.sm\:items-end {
+  @media (width >= 40rem) {
+    align-items: flex-end;
+  }
+}
+.sm\:justify-between {
+  @media (width >= 40rem) {
+    justify-content: space-between;
+  }
+}
+.md\:grid-cols-4 {
+  @media (width >= 48rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.md\:grid-cols-\[150px_1fr\] {
+  @media (width >= 48rem) {
+    grid-template-columns: 150px 1fr;
+  }
+}
+.md\:flex-row {
+  @media (width >= 48rem) {
+    flex-direction: row;
+  }
+}
+.md\:items-end {
+  @media (width >= 48rem) {
+    align-items: flex-end;
+  }
+}
+.md\:p-7 {
+  @media (width >= 48rem) {
+    padding: calc(var(--spacing) * 7);
+  }
+}
+.md\:p-8 {
+  @media (width >= 48rem) {
+    padding: calc(var(--spacing) * 8);
+  }
+}
+.md\:px-8 {
+  @media (width >= 48rem) {
+    padding-inline: calc(var(--spacing) * 8);
+  }
+}
+.md\:py-8 {
+  @media (width >= 48rem) {
+    padding-block: calc(var(--spacing) * 8);
+  }
+}
+.lg\:grid-cols-4 {
+  @media (width >= 64rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.lg\:grid-cols-\[1fr_260px\] {
+  @media (width >= 64rem) {
+    grid-template-columns: 1fr 260px;
+  }
+}
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-tracking {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-inset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-offset-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+  syntax: "*";
+  inherits: false;
+  initial-value: #fff;
+}
+@property --tw-ring-offset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-space-y-reverse: 0;
+      --tw-border-style: solid;
+      --tw-leading: initial;
+      --tw-font-weight: initial;
+      --tw-tracking: initial;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-color: initial;
+      --tw-shadow-alpha: 100%;
+      --tw-inset-shadow: 0 0 #0000;
+      --tw-inset-shadow-color: initial;
+      --tw-inset-shadow-alpha: 100%;
+      --tw-ring-color: initial;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-inset-ring-color: initial;
+      --tw-inset-ring-shadow: 0 0 #0000;
+      --tw-ring-inset: initial;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-duration: initial;
+    }
+  }
+}
+
+</style>
+</head>
+ <body data-template-id="__page-root" style="background: rgb(23, 31, 24);">
+  <div class="app-shell w-full px-4 py-5 md:px-8 md:py-8">
+   <header class="relative mx-auto mb-5 flex w-full max-w-6xl flex-col justify-between gap-3 md:flex-row md:items-end">
+    <div>
+     <p data-template-id="eyebrow" class="canva-text mb-2 font-bold tracking-[0.18em]" style="color: rgb(214, 203, 145); font-weight: 700; font-style: normal; font-size: 16px; letter-spacing: 0.12rem;">OPERAZIONE // SETTORI D’ASSALTO</p>
+     <h1 data-template-id="game-title" class="canva-text font-bold leading-none" style="color: rgb(245, 233, 184); font-weight: 700; font-style: normal; font-size: 32px; letter-spacing: -0.04rem;">BATTLEFIELD</h1>
+    </div>
+    <div data-template-id="header-tag" class="canva-tag w-fit border-2 px-3 py-2 text-xs font-bold tracking-wider" style="background: rgb(69, 84, 55); color: rgb(247, 237, 189); font-weight: 700; font-style: normal; font-size: 16px;">ARCADE SIDE OPS // MK II</div>
+   </header>
+   <main class="relative mx-auto grid w-full max-w-6xl gap-5 lg:grid-cols-[1fr_260px]">
+    <section aria-label="Campo di battaglia laterale" class="min-w-0">
+     <div data-template-id="hud-panel" class="canva-panel hud-grid mb-3 grid grid-cols-2 gap-3 border-2 p-3 shadow-[4px_4px_0_#111811] md:grid-cols-4" style="background: rgb(52, 67, 47);">
+      <div>
+       <p data-template-id="health-label" class="canva-text text-[10px] font-bold tracking-wider" style="color: rgb(208, 199, 146); font-weight: 700; font-style: normal; font-size: 16px;">VITA</p>
+       <div class="mt-1 h-3 w-full border border-[#0b110c] bg-[#172016] shadow-inner">
+        <div id="health-bar" class="h-full bg-[#c64b40] transition-[width] duration-150"></div>
+       </div>
+       <p id="health-text" class="hud-value mt-1 text-xs font-bold" aria-live="polite">400 / 400</p>
+      </div>
+      <div>
+       <p data-template-id="coins-label" class="canva-text text-[10px] font-bold tracking-wider" style="color: rgb(208, 199, 146); font-weight: 700; font-style: normal; font-size: 16px;">CREDITO</p>
+       <p id="coins-text" class="hud-value mt-2 text-xs font-bold" aria-live="polite">0 CR</p>
+      </div>
+      <div>
+       <p data-template-id="objective-label" class="canva-text text-[10px] font-bold tracking-wider" style="color: rgb(208, 199, 146); font-weight: 700; font-style: normal; font-size: 16px;">SETTORE</p>
+       <p id="objective-text" class="hud-value mt-2 text-xs font-bold" aria-live="polite">SETTORE 1 / 3</p>
+      </div>
+      <div>
+       <p data-template-id="status-label" class="canva-text text-[10px] font-bold tracking-wider" style="color: rgb(208, 199, 146); font-weight: 700; font-style: normal; font-size: 16px;">SawwdTATO</p>
+       <p id="status-text" class="hud-value mt-2 text-xs font-bold" aria-live="polite">IN ATTESA</p>
+      </div>
+     </div>
+     <div class="game-frame scanlines relative overflow-hidden border-4 border-[#101710]">
+      <canvas id="game-canvas" width="960" height="540" tabindex="0" aria-label="Battlefield Pixel laterale: D per avanzare, A per arretrare, W per saltare, S per scendere in volo, clic sinistro per sparare"></canvas>
+      <div id="start-screen" class="overlay absolute inset-0 z-10 flex items-center justify-center bg-[#0d150de8] p-5">
+       <div data-template-id="start-panel" class="canva-panel max-w-md border-2 p-6 text-center shadow-[7px_7px_0_#070b08]" style="background: rgb(69, 81, 54); color: rgb(244, 235, 198);">
+        <p data-template-id="start-kicker" class="canva-text mb-3 text-xs font-bold tracking-[0.2em]" style="color: rgb(240, 212, 103); font-weight: 700; font-style: normal; font-size: 16px;">BRIEFING DI MISSIONE</p>
+        <h2 data-template-id="start-title" class="canva-text mb-4 font-bold" style="color: rgb(255, 241, 200); font-weight: 700; font-style: normal; font-size: 24px;">ATTRAVERSA VENTIDUE FRONTI</h2>
+        <p data-template-id="start-copy" class="canva-text mb-6 text-sm leading-6" style="color: rgb(227, 219, 177); font-weight: 400; font-style: normal; font-size: 16px;">I soldati sono più aggressivi e i carri armati presidiano le zone chiave. Avanza, raccogli crediti e rinforza la tua unità al bunker.</p>
+        <div class="flex flex-wrap justify-center gap-3"><button id="start-button" data-template-id="start-button-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">INIZIA MISSIONE</button><button id="open-armory" data-template-id="open-armory-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ARmeria</button><button id="open-skins" data-template-id="open-skins-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">SKIN</button><button id="open-recruitment" data-template-id="open-recruitment-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">RECLUTA SOLDATI</button><button id="open-vehicles" data-template-id="open-vehicles-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">VEICOLI</button>
+        </div>
+        <div id="recruitment-screen" class="overlay is-hidden shop-overlay absolute inset-0 z-30 overflow-y-auto p-4 md:p-7">
+         <section data-template-id="recruitment-panel" class="canva-panel mx-auto max-w-3xl border-2 p-5 shadow-[7px_7px_0_#070b08] md:p-7" aria-labelledby="recruitment-title" style="background: rgb(53, 67, 46); color: rgb(245, 237, 201);">
+          <div class="mb-4 flex items-end justify-between gap-3 border-b border-[#859160] pb-3">
+           <div>
+            <p data-template-id="recruitment-kicker" class="canva-text mb-2 text-xs font-bold tracking-[0.18em]" style="color: rgb(240, 212, 103); font-weight: 700; font-style: normal; font-size: 16px;">RINFORZI // UNITÀ ALLEATE</p>
+            <h2 id="recruitment-title" data-template-id="recruitment-title-text" class="canva-text font-bold" style="color: rgb(255, 241, 200); font-weight: 700; font-style: normal; font-size: 24px;">RECLUTAMENTO</h2>
+           </div>
+           <p id="recruitment-coins" class="hud-value text-sm font-bold" aria-live="polite"></p>
+          </div>
+          <p data-template-id="recruitment-copy" class="canva-text mb-4 text-xs leading-5" style="color: rgb(227, 219, 177); font-weight: 400; font-style: normal; font-size: 16px;">Investi i crediti raccolti per aggiungere soldati alleati alla tua unità.</p>
+          <div class="grid gap-3 sm:grid-cols-3">
+           <article data-template-id="recruit-scout-card" class="canva-card border-2 p-3" style="background: rgb(41, 53, 36);">
+            <h3 data-template-id="recruit-scout-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">ESPLORATORE</h3>
+            <p data-template-id="recruit-scout-price" class="canva-text mt-1 text-xs" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">23 CR</p><button data-recruit-type="scout" data-recruit-cost="23" data-template-id="recruit-buy-label" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-xs font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">RECLUTA</button>
+           </article>
+           <article data-template-id="recruit-rifle-card" class="canva-card border-2 p-3" style="background: rgb(41, 53, 36);">
+            <h3 data-template-id="recruit-rifle-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">FUCILIERE</h3>
+            <p data-template-id="recruit-rifle-price" class="canva-text mt-1 text-xs" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">20 CR</p><button data-recruit-type="rifle" data-recruit-cost="38" data-template-id="recruit-buy-label" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-xs font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">RECLUTA</button>
+           </article>
+           <article data-template-id="recruit-heavy-card" class="canva-card border-2 p-3" style="background: rgb(41, 53, 36);">
+            <h3 data-template-id="recruit-heavy-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">VETERANO</h3>
+            <p data-template-id="recruit-heavy-price" class="canva-text mt-1 text-xs" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">57 CR</p><button data-recruit-type="heavy" data-recruit-cost="57" data-template-id="recruit-buy-label" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-xs font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">RECLUTA</button>
+           </article>
+          </div>
+          <p id="recruitment-count" class="mt-4 text-xs text-[#f4d96e]" aria-live="polite"></p>
+          <p id="recruitment-message" class="min-h-5 text-xs text-[#f4d96e]" aria-live="polite"></p><button id="close-recruitment" data-template-id="close-recruitment-label" type="button" class="canva-button pixel-button mt-3 border-2 px-4 py-2 text-xs font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">CHIUDI</button>
+         </section>
+        </div>
+        <div id="skins-screen" class="overlay is-hidden shop-overlay absolute inset-0 z-30 overflow-y-auto p-4 md:p-7">
+         <section data-template-id="skins-panel" class="canva-panel mx-auto max-w-3xl border-2 p-5 shadow-[7px_7px_0_#070b08] md:p-7" aria-labelledby="skins-title" style="background: rgb(53, 67, 46); color: rgb(245, 237, 201);">
+          <div class="mb-4 border-b border-[#859160] pb-3">
+           <p data-template-id="skins-kicker" class="canva-text mb-2 text-xs font-bold tracking-[0.18em]" style="color: rgb(240, 212, 103); font-weight: 700; font-style: normal; font-size: 16px;">PERSONALIZZAZIONE // UNITÀ</p>
+           <h2 id="skins-title" data-template-id="skins-title-text" class="canva-text font-bold" style="color: rgb(255, 241, 200); font-weight: 700; font-style: normal; font-size: 24px;">SKIN OPERATORE</h2>
+          </div>
+          <div class="grid gap-4 md:grid-cols-[150px_1fr]">
+           <div data-template-id="skin-preview-panel" class="canva-panel flex min-h-[150px] items-center justify-center border-2 p-3" style="background: rgb(41, 53, 36); color: rgb(245, 237, 201);">
+            <canvas id="skin-preview" width="100" height="150" aria-label="Anteprima skin"></canvas>
+           </div>
+           <div>
+            <p data-template-id="skins-copy" class="canva-text mb-3 text-xs leading-5" style="color: rgb(227, 219, 177); font-weight: 400; font-style: normal; font-size: 16px;">Scegli una skin sbloccata per cambiare immediatamente l’aspetto del personaggio. Le skin bloccate non sono selezionabili.</p>
+            <div id="skins-grid" class="grid gap-2 sm:grid-cols-2"></div>
+           </div>
+          </div>
+          <p id="skins-message" class="mt-4 min-h-5 text-xs text-[#f4d96e]" aria-live="polite"></p>
+          <div class="flex flex-wrap gap-3"><button id="apply-skin" data-template-id="apply-skin-label" type="button" class="canva-button pixel-button border-2 px-4 py-2 text-xs font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">APPLICA SKIN</button><button id="close-skins" data-template-id="close-skins-label" type="button" class="canva-button pixel-button border-2 px-4 py-2 text-xs font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">CHIUDI</button>
+          </div>
+         </section>
+        </div>
+        <div id="armory-screen" class="overlay is-hidden shop-overlay absolute inset-0 z-30 overflow-y-auto p-4 md:p-7">
+         <section data-template-id="armory-panel" class="canva-panel mx-auto max-w-3xl border-2 p-5 shadow-[7px_7px_0_#070b08] md:p-7" aria-labelledby="armory-title" style="background: rgb(53, 67, 46); color: rgb(245, 237, 201);">
+          <div class="mb-4 flex items-end justify-between gap-3 border-b border-[#859160] pb-3">
+           <div>
+            <p data-template-id="armory-kicker" class="canva-text mb-2 text-xs font-bold tracking-[0.18em]" style="color: rgb(240, 212, 103); font-weight: 700; font-style: normal; font-size: 16px;">ARSENALE // EQUIPAGGIAMENTO</p>
+            <h2 id="armory-title" data-template-id="armory-title-text" class="canva-text font-bold" style="color: rgb(255, 241, 200); font-weight: 700; font-style: normal; font-size: 24px;">ARmeria da campo</h2>
+           </div>
+           <p id="armory-coins" class="hud-value text-sm font-bold" aria-live="polite"></p>
+          </div>
+          <p data-template-id="armory-copy" class="canva-text mb-4 text-xs leading-5" style="color: rgb(227, 219, 177); font-weight: 400; font-style: normal; font-size: 16px;">Acquista nuove armi con i crediti raccolti. Le armi sbloccate restano nel tuo inventario.</p>
+          <div id="armory-grid" class="grid gap-3 sm:grid-cols-2">
+           <article id="armory-burst-card" data-template-id="armory-burst-card" class="canva-card border-2 p-3" style="background: rgb(41, 53, 36);">
+            <h3 data-template-id="armory-burst-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">FUCILE A RAFFICA</h3>
+            <p data-template-id="armory-burst-price" class="canva-text mt-1 text-xs" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">38 CR</p><button id="armory-burst-buy" data-template-id="armory-buy-label" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-xs font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA</button>
+           </article>
+           <article id="armory-spread-card" data-template-id="armory-spread-card" class="canva-card border-2 p-3" style="background: rgb(41, 53, 36);">
+            <h3 data-template-id="armory-spread-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">FUCILE A VENTAGLIO</h3>
+            <p data-template-id="armory-spread-price" class="canva-text mt-1 text-xs" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">46 CR</p><button id="armory-spread-buy" data-template-id="armory-buy-label" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-xs font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA</button>
+           </article>
+           <article id="armory-rail-card" data-template-id="armory-rail-card" class="canva-card border-2 p-3" style="background: rgb(41, 53, 36);">
+            <h3 data-template-id="armory-rail-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">CANNONE RAIL</h3>
+            <p data-template-id="armory-rail-price" class="canva-text mt-1 text-xs" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">61 CR</p><button id="armory-rail-buy" data-template-id="armory-buy-label" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-xs font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA</button>
+           </article>
+           <article id="armory-grenade-card" data-template-id="armory-grenade-card" class="canva-card border-2 p-3" style="background: rgb(41, 53, 36);">
+            <h3 data-template-id="armory-grenade-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">LANCIAGRANATE</h3>
+            <p data-template-id="armory-grenade-price" class="canva-text mt-1 text-xs" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">72 CR</p><button id="armory-grenade-buy" data-template-id="armory-buy-label" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-xs font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA</button>
+           </article>
+           <article id="armory-minigun-card" data-template-id="armory-minigun-card" class="canva-card border-2 p-3" style="background: rgb(41, 53, 36);">
+            <h3 data-template-id="armory-minigun-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">MINIGUN</h3>
+            <p data-template-id="armory-minigun-price" class="canva-text mt-1 text-xs" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">143 CR</p><button id="armory-minigun-buy" data-template-id="armory-buy-label" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-xs font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA</button>
+           </article>
+          </div>
+          <p id="armory-message" class="mt-4 min-h-5 text-xs text-[#f4d96e]" aria-live="polite"></p><button id="close-armory" data-template-id="close-armory-label" type="button" class="canva-button pixel-button mt-3 border-2 px-4 py-2 text-xs font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">CHIUDI</button>
+         </section>
+        </div>
+        <div id="vehicles-screen" class="overlay is-hidden shop-overlay absolute inset-0 z-30 overflow-y-auto p-4 md:p-7">
+         <section data-template-id="vehicles-panel" class="canva-panel mx-auto max-w-3xl border-2 p-5 shadow-[7px_7px_0_#070b08] md:p-7" aria-labelledby="vehicles-title" style="background: rgb(53, 67, 46); color: rgb(245, 237, 201);">
+          <div class="mb-4 border-b border-[#859160] pb-3">
+           <p data-template-id="vehicles-kicker" class="canva-text mb-2 text-xs font-bold tracking-[0.18em]" style="color: rgb(240, 212, 103); font-weight: 700; font-style: normal; font-size: 16px;">MOTORIZZAZIONE // UNITÀ</p>
+           <h2 id="vehicles-title" data-template-id="vehicles-title-text" class="canva-text font-bold" style="color: rgb(255, 241, 200); font-weight: 700; font-style: normal; font-size: 24px;">GARAGE DA CAMPO</h2><button id="unequip-vehicle" data-template-id="unequip-vehicle-label" type="button" class="canva-button pixel-button border-2 px-3 py-2 text-xs font-bold" style="background: rgb(212, 134, 82); color: rgb(44, 23, 19); font-weight: 700; font-style: normal; font-size: 16px;">DISEQUIPAGGIA</button>
+          </div>
+          <p data-template-id="vehicles-copy" class="canva-text mb-4 text-xs leading-5" style="color: rgb(227, 219, 177); font-weight: 400; font-style: normal; font-size: 16px;">Acquista e equipaggia un mezzo. Il veicolo sostituisce gli alleati durante la battaglia e modifica il tuo modo di avanzare.</p>
+          <div id="vehicles-grid" class="grid gap-3 sm:grid-cols-2"></div>
+          <p id="vehicles-message" class="mt-4 min-h-5 text-xs text-[#f4d96e]" aria-live="polite"></p><button id="close-vehicles" data-template-id="close-vehicles-label" type="button" class="canva-button pixel-button mt-3 border-2 px-4 py-2 text-xs font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">CHIUDI</button>
+         </section>
+        </div>
+       </div>
+      </div>
+      <div id="shop-screen" class="overlay is-hidden shop-overlay absolute inset-0 z-20 overflow-y-auto p-4 md:p-7">
+       <section data-template-id="shop-panel" class="canva-panel shop-panel mx-auto max-w-5xl border-2 p-5 shadow-[7px_7px_0_#070b08] md:p-8" aria-labelledby="shop-title" style="background: rgb(53, 67, 46); color: rgb(245, 237, 201);">
+        <div class="mb-5 flex flex-col gap-3 border-b border-[#859160] pb-4 sm:flex-row sm:items-end sm:justify-between">
+         <div>
+          <p data-template-id="shop-kicker" class="canva-text mb-2 text-xs font-bold tracking-[0.18em]" style="color: rgb(240, 212, 103); font-weight: 700; font-style: normal; font-size: 16px;">PUNTO SICURO // RIARMO</p>
+          <h2 id="shop-title" data-template-id="shop-title-text" class="canva-text font-bold" style="color: rgb(255, 241, 200); font-weight: 700; font-style: normal; font-size: 24px;">DEPOSITO DA CAMPO</h2>
+         </div>
+         <p id="shop-coins" class="hud-value text-sm font-bold" aria-live="polite">CREDITO: 0 CR</p>
+        </div>
+        <p data-template-id="shop-copy" class="canva-text mb-5 text-xs leading-5" style="color: rgb(227, 219, 177); font-weight: 400; font-style: normal; font-size: 16px;">I carri armati richiedono fuoco sostenuto. Spendi i crediti ottenuti sul campo per mantenere il vantaggio nei settori successivi.</p>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+         <article id="card-damage" data-template-id="shop-damage-card" class="canva-card shop-card border-2 p-3" style="background: rgb(41, 53, 36);">
+          <h3 data-template-id="shop-damage-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">DANNO +</h3>
+          <p data-template-id="shop-damage-copy" class="canva-text mt-2 text-[11px] leading-4" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">Ogni proiettile infligge il doppio del danno, ideale contro le corazze.</p><button id="buy-damage" data-template-id="shop-damage-button" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-[11px] font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA · 27 CR</button>
+         </article>
+         <article id="card-fire" data-template-id="shop-fire-card" class="canva-card shop-card border-2 p-3" style="background: rgb(41, 53, 36);">
+          <h3 data-template-id="shop-fire-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">FUOCO RAPIDO</h3>
+          <p data-template-id="shop-fire-copy" class="canva-text mt-2 text-[11px] leading-4" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">Riduce sensibilmente il tempo tra un colpo e l’altro.</p><button id="buy-fire" data-template-id="shop-fire-button" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-[11px] font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA · 27 CR</button>
+         </article>
+         <article id="card-health" data-template-id="shop-health-card" class="canva-card shop-card border-2 p-3" style="background: rgb(41, 53, 36);">
+          <h3 data-template-id="shop-health-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">CORAZZA</h3>
+          <p data-template-id="shop-health-copy" class="canva-text mt-2 text-[11px] leading-4" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">Aumenta la salute massima di 40 e ripara subito l’unità.</p><button id="buy-health" data-template-id="shop-health-button" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-[11px] font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA · 34 CR</button>
+         </article>
+         <article id="card-speed" data-template-id="shop-speed-card" class="canva-card shop-card border-2 p-3" style="background: rgb(41, 53, 36);">
+          <h3 data-template-id="shop-speed-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">PASSO RAPIDO</h3>
+          <p data-template-id="shop-speed-copy" class="canva-text mt-2 text-[11px] leading-4" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">Aumenta la velocità di avanzamento permanente.</p><button id="buy-speed" data-template-id="shop-speed-button" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-[11px] font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA · 30 CR</button>
+         </article>
+         <article id="card-burst" data-template-id="shop-burst-card" class="canva-card shop-card border-2 p-3" style="background: rgb(41, 53, 36);">
+          <h3 data-template-id="shop-burst-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">FUCILE A RAFFICA</h3>
+          <p data-template-id="shop-burst-copy" class="canva-text mt-2 text-[11px] leading-4" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">Sblocca una raffica a tre colpi per ogni tiro.</p><button id="buy-burst" data-template-id="shop-burst-button" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-[11px] font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA · 38 CR</button>
+         </article>
+         <article id="card-spread" data-template-id="shop-spread-card" class="canva-card shop-card border-2 p-3" style="background: rgb(41, 53, 36);">
+          <h3 data-template-id="shop-spread-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">FUCILE A VENTAGLIO</h3>
+          <p data-template-id="shop-spread-copy" class="canva-text mt-2 text-[11px] leading-4" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">Tre proiettili in ventaglio per coprire più bersagli a ogni raffica.</p><button id="buy-spread" data-template-id="shop-spread-button" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-[11px] font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA · 46 CR</button>
+         </article>
+         <article id="card-rail" data-template-id="shop-rail-card" class="canva-card shop-card border-2 p-3" style="background: rgb(41, 53, 36);">
+          <h3 data-template-id="shop-rail-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">CANNONE RAIL</h3>
+          <p data-template-id="shop-rail-copy" class="canva-text mt-2 text-[11px] leading-4" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">Colpo perforante ad alta potenza: infligge danno quadruplo alle corazze.</p><button id="buy-rail" data-template-id="shop-rail-button" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-[11px] font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA · 61 CR</button>
+         </article>
+         <article id="card-grenade" data-template-id="shop-grenade-card" class="canva-card shop-card border-2 p-3" style="background: rgb(41, 53, 36);">
+          <h3 data-template-id="shop-grenade-title" class="canva-text font-bold" style="color: rgb(255, 226, 122); font-weight: 700; font-style: normal; font-size: 19px;">LANCIAGRANATE</h3>
+          <p data-template-id="shop-grenade-copy" class="canva-text mt-2 text-[11px] leading-4" style="color: rgb(231, 223, 180); font-weight: 400; font-style: normal; font-size: 16px;">Lancia un proiettile ad arco esplosivo: potente, ma con cadenza ridotta.</p><button id="buy-grenade" data-template-id="shop-grenade-button" type="button" class="canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-[11px] font-bold" style="background: rgb(185, 128, 62); color: rgb(23, 27, 18); font-weight: 700; font-style: normal; font-size: 16px;">ACQUISTA · 72 CR</button>
+         </article>
+        </div>
+        <div class="mt-5 flex flex-col items-start justify-between gap-3 border-t border-[#859160] pt-4 sm:flex-row sm:items-center">
+         <p id="shop-message" class="text-xs text-[#f4d96e]" aria-live="polite"></p><button id="continue-button" data-template-id="continue-button-label" type="button" class="canva-button pixel-button border-2 px-4 py-3 text-xs font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">AVANZA AL PROSSIMO SETTORE</button>
+        </div>
+       </section>
+      </div>
+      <div id="victory-screen" class="overlay is-hidden absolute inset-0 z-10 flex items-center justify-center bg-[#19341ee8] p-5">
+       <div data-template-id="victory-panel" class="canva-panel max-w-md border-2 p-6 text-center shadow-[7px_7px_0_#070b08]" style="background: rgb(61, 101, 61); color: rgb(243, 237, 198);">
+        <p data-template-id="victory-kicker" class="canva-text mb-3 text-xs font-bold tracking-[0.2em]" style="color: rgb(241, 217, 111); font-weight: 700; font-style: normal; font-size: 16px;">ESTRAZIONE SICURA</p>
+        <h2 data-template-id="victory-title" class="canva-text mb-4 font-bold" style="color: rgb(255, 244, 204); font-weight: 700; font-style: normal; font-size: 24px;">MISSIONE COMPIUTA</h2>
+        <p data-template-id="victory-copy" class="canva-text mb-6 text-sm leading-6" style="color: rgb(229, 237, 202); font-weight: 400; font-style: normal; font-size: 16px;">Hai superato ventidue fronti, distrutto le unità corazzate e raggiunto il punto di estrazione.</p><button id="victory-restart" data-template-id="victory-button-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(214, 190, 89); color: rgb(23, 32, 22); font-weight: 700; font-style: normal; font-size: 16px;">NUOVA MISSIONE</button>
+       </div>
+      </div>
+      <div id="defeat-screen" class="overlay is-hidden absolute inset-0 z-10 flex items-center justify-center bg-[#351513e8] p-5">
+       <div data-template-id="defeat-panel" class="canva-panel max-w-md border-2 p-6 text-center shadow-[7px_7px_0_#070b08]" style="background: rgb(113, 58, 50); color: rgb(255, 240, 203);">
+        <p data-template-id="defeat-kicker" class="canva-text mb-3 text-xs font-bold tracking-[0.2em]" style="color: rgb(242, 189, 130); font-weight: 700; font-style: normal; font-size: 16px;">COMUNICAZIONE INTERROTTA</p>
+        <h2 data-template-id="defeat-title" class="canva-text mb-4 font-bold" style="color: rgb(255, 240, 209); font-weight: 700; font-style: normal; font-size: 24px;">UNITÀ PERSA</h2>
+        <p data-template-id="defeat-copy" class="canva-text mb-6 text-sm leading-6" style="color: rgb(243, 216, 181); font-weight: 400; font-style: normal; font-size: 16px;">Le nuove unità nemiche non concedono tregua. Usa le coperture, investi nel bunker e concentra il fuoco sui carri armati.</p>
+        <div class="flex flex-wrap justify-center gap-3"><button id="defeat-restart" data-template-id="defeat-button-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(212, 134, 82); color: rgb(44, 23, 19); font-weight: 700; font-style: normal; font-size: 16px;">RIPROVA</button><button id="return-lobby" data-template-id="return-lobby-label" type="button" class="canva-button pixel-button border-2 px-5 py-3 text-sm font-bold" style="background: rgb(208, 182, 83); color: rgb(24, 33, 22); font-weight: 700; font-style: normal; font-size: 16px;">TORNA ALLA LOBBY</button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <aside data-template-id="briefing-panel" class="canva-sidebar border-2 p-5 shadow-[5px_5px_0_#111811]" style="background: rgb(45, 57, 41); color: rgb(242, 232, 190);">
+     <h2 data-template-id="briefing-title" class="canva-text mb-5 font-bold" style="color: rgb(255, 240, 196); font-weight: 700; font-style: normal; font-size: 24px;">COMANDI</h2>
+     <div class="space-y-5 text-xs leading-5">
+      <section>
+       <h3 data-template-id="move-title" class="canva-text mb-2 font-bold" style="color: rgb(224, 207, 142); font-weight: 700; font-style: normal; font-size: 19px;">MOVIMENTO</h3>
+       <p class="text-[#f2e9c2]"><span class="key">D</span> avanti · <span class="key">A</span> indietro · <span class="key">W</span> salto · <span class="key">S</span> discesa in volo</p>
+      </section>
+      <section>
+       <h3 data-template-id="shoot-title" class="canva-text mb-2 font-bold" style="color: rgb(224, 207, 142); font-weight: 700; font-style: normal; font-size: 19px;">FUOCO</h3>
+       <p class="text-[#f2e9c2]"><span class="key">CLIC</span> sinistro per sparare</p>
+      </section>
+      <section>
+       <h3 data-template-id="threat-title" class="canva-text mb-2 font-bold" style="color: rgb(239, 168, 90); font-weight: 700; font-style: normal; font-size: 19px;">MINACCE</h3>
+       <p data-template-id="threat-copy" class="canva-text" style="color: rgb(227, 219, 176); font-weight: 400; font-style: normal; font-size: 16px;">I soldati avanzano e sparano più in fretta. I carri armati hanno molta corazza e proiettili esplosivi: usa coperture e fuoco concentrato.</p>
+      </section>
+      <section>
+       <h3 data-template-id="bonus-title" class="canva-text mb-2 font-bold" style="color: rgb(239, 168, 90); font-weight: 700; font-style: normal; font-size: 19px;">BONUS SUL CAMPO</h3>
+       <p data-template-id="bonus-copy" class="canva-text" style="color: rgb(227, 219, 176); font-weight: 400; font-style: normal; font-size: 16px;">Raccogli casse con crediti, salute, scudo, velocità e fuoco rapido per sopravvivere ai settori più duri.</p>
+      </section>
+      <section class="border-t border-[#879063] pt-4">
+       <h3 data-template-id="tip-title" class="canva-text mb-2 font-bold" style="color: rgb(224, 207, 142); font-weight: 700; font-style: normal; font-size: 19px;">CONSIGLIO</h3>
+       <p data-template-id="tip-copy" class="canva-text" style="color: rgb(227, 219, 176); font-weight: 400; font-style: normal; font-size: 16px;">I proiettili dei carri fanno molti danni. Muoviti dopo ogni salva, nasconditi dietro gli ostacoli e potenzia l’arma prima della valle finale.</p>
+      </section>
+     </div>
+    </aside>
+   </main>
+   <footer class="relative mx-auto mt-5 w-full max-w-6xl">
+    <p data-template-id="footer-note" class="canva-text text-center text-[10px] tracking-wider" style="color: rgb(189, 181, 125); font-weight: 700; font-style: normal; font-size: 16px; letter-spacing: 0.08rem;">A SINISTRA · D DESTRA · W / SPAZIO SALTO · CLIC SINISTRO · 22 FRONTI · UNITÀ CORAZZATE · PIXEL OPS 198X</p>
+   </footer>
+  </div>
+  
+  <script>
+    const canvas=document.getElementById('game-canvas'),ctx=canvas.getContext('2d');
+    ctx.imageSmoothingEnabled=false;
+    const W=960,H=540,groundY=431,keys={};
+    let mouseFiring=false,lastTime=0,game;
+
+    const levels=[
+      {name:'PIANA FORTIFICATA',width:2580,sky:'#788055',mid:'#56623c',ground:'#4d5937',cover:[{x:360,w:102,h:20,t:'sand'},{x:730,w:58,h:44,t:'crate'},{x:1080,w:112,h:20,t:'sand'},{x:1580,w:62,h:44,t:'crate'},{x:1990,w:120,h:20,t:'sand'}],soldiers:[500,760,1010,1260,1530,1850,2180],tanks:[1370,2310],pickups:[250,650,910,1190,1710,2070]},
+      {name:'DEPOSITO INDUSTRIALE',width:2860,sky:'#566070',mid:'#353f4a',ground:'#303733',cover:[{x:300,w:76,h:42,t:'metal'},{x:650,w:126,h:20,t:'sand'},{x:980,w:65,h:50,t:'metal'},{x:1450,w:130,h:20,t:'sand'},{x:1870,w:70,h:50,t:'metal'},{x:2240,w:130,h:20,t:'sand'}],soldiers:[430,620,860,1120,1380,1670,1970,2190,2470],tanks:[1200,1780,2550],pickups:[220,540,810,1320,1620,2040,2390]},
+      {name:'VALLE CREMISI',width:3100,sky:'#80564b',mid:'#543632',ground:'#3d3028',cover:[{x:380,w:115,h:20,t:'sand'},{x:720,w:70,h:48,t:'metal'},{x:1120,w:125,h:20,t:'sand'},{x:1540,w:80,h:48,t:'crate'},{x:1950,w:128,h:20,t:'sand'},{x:2460,w:74,h:48,t:'metal'}],soldiers:[420,590,820,1050,1280,1490,1700,1940,2180,2410,2670],tanks:[920,1610,2120,2780],pickups:[210,680,980,1360,1810,2260,2640]},
+      {name:'CANYON D’ACCIAIO',width:3300,sky:'#59656a',mid:'#38454a',ground:'#303735',cover:[{x:300,w:90,h:44,t:'metal'},{x:760,w:130,h:20,t:'sand'},{x:1220,w:72,h:52,t:'crate'},{x:1710,w:145,h:20,t:'metal'},{x:2320,w:84,h:48,t:'crate'},{x:2810,w:150,h:20,t:'sand'}],soldiers:[400,580,790,1010,1240,1490,1760,2020,2270,2540,2860,3090],tanks:[900,1460,2050,2670,3110],pickups:[230,690,1080,1370,1880,2410,2920]},
+      {name:'PORTO FANTASMA',width:3450,sky:'#655c67',mid:'#443e4b',ground:'#332f36',cover:[{x:350,w:110,h:20,t:'sand'},{x:820,w:70,h:50,t:'metal'},{x:1260,w:140,h:20,t:'crate'},{x:1780,w:86,h:52,t:'metal'},{x:2240,w:120,h:20,t:'sand'},{x:2890,w:90,h:54,t:'crate'}],soldiers:[380,570,760,980,1190,1420,1660,1910,2180,2440,2700,2990,3250],tanks:[760,1320,1870,2450,3040],pickups:[200,620,1040,1510,2070,2620,3180]},
+      {name:'LINEA DI SBARRAMENTO',width:3600,sky:'#6d6552',mid:'#4b4938',ground:'#38382d',cover:[{x:280,w:82,h:48,t:'crate'},{x:690,w:150,h:20,t:'sand'},{x:1160,w:74,h:54,t:'metal'},{x:1640,w:130,h:20,t:'sand'},{x:2180,w:82,h:50,t:'crate'},{x:2730,w:150,h:20,t:'metal'},{x:3240,w:90,h:52,t:'crate'}],soldiers:[360,550,730,930,1140,1360,1590,1820,2070,2320,2570,2820,3090,3380],tanks:[700,1200,1710,2260,2810,3350],pickups:[190,580,1010,1450,1970,2490,3010,3440]},
+      {name:'CITTÀ IN ROVINA',width:3750,sky:'#625e59',mid:'#403f40',ground:'#303231',cover:[{x:320,w:100,h:50,t:'metal'},{x:780,w:130,h:20,t:'sand'},{x:1280,w:76,h:56,t:'crate'},{x:1800,w:150,h:20,t:'metal'},{x:2360,w:86,h:54,t:'crate'},{x:2940,w:140,h:20,t:'sand'},{x:3430,w:90,h:52,t:'metal'}],soldiers:[340,520,710,900,1100,1310,1530,1770,2010,2250,2500,2760,3020,3290,3540],tanks:[650,1130,1630,2180,2730,3260,3600],pickups:[180,560,970,1420,1900,2410,2890,3390]},
+      {name:'FOSSA DEL TUONO',width:3900,sky:'#584f57',mid:'#3b353f',ground:'#2c2b31',cover:[{x:300,w:90,h:54,t:'crate'},{x:720,w:145,h:20,t:'metal'},{x:1190,w:78,h:58,t:'sand'},{x:1680,w:130,h:20,t:'crate'},{x:2190,w:92,h:56,t:'metal'},{x:2760,w:150,h:20,t:'sand'},{x:3350,w:84,h:58,t:'crate'}],soldiers:[320,500,680,860,1050,1240,1450,1660,1880,2110,2340,2580,2820,3070,3330,3600,3800],tanks:[600,1080,1540,2070,2630,3180,3720],pickups:[170,540,930,1370,1810,2280,2740,3220,3720]},
+      {name:'BASTIONE NERO',width:4050,sky:'#4f5358',mid:'#34393f',ground:'#292d30',cover:[{x:280,w:110,h:52,t:'metal'},{x:760,w:150,h:20,t:'sand'},{x:1260,w:82,h:60,t:'crate'},{x:1780,w:140,h:20,t:'metal'},{x:2310,w:90,h:56,t:'sand'},{x:2870,w:160,h:20,t:'crate'},{x:3480,w:94,h:60,t:'metal'}],soldiers:[300,480,660,840,1030,1220,1410,1620,1830,2050,2270,2500,2730,2970,3210,3460,3720,3940],tanks:[560,1010,1490,2010,2550,3090,3640,3970],pickups:[160,520,900,1340,1760,2220,2690,3150,3610,3970]},
+      {name:'ORIZZONTE IN FIAMME',width:4200,sky:'#85554b',mid:'#583734',ground:'#392d2b',cover:[{x:260,w:100,h:56,t:'sand'},{x:700,w:160,h:20,t:'crate'},{x:1190,w:86,h:60,t:'metal'},{x:1710,w:145,h:20,t:'sand'},{x:2250,w:92,h:58,t:'crate'},{x:2820,w:160,h:20,t:'metal'},{x:3420,w:100,h:62,t:'sand'},{x:3890,w:90,h:54,t:'crate'}],soldiers:[280,460,640,820,1000,1190,1380,1570,1770,1980,2190,2410,2630,2850,3070,3290,3510,3740,3970,4120],tanks:[520,950,1400,1900,2420,2940,3460,3950],pickups:[150,500,850,1300,1720,2160,2600,3040,3490,3970]},
+      {name:'CUORE DEL FRONTE',width:4400,sky:'#6f4f4d',mid:'#493436',ground:'#30282b',cover:[{x:240,w:110,h:58,t:'metal'},{x:680,w:160,h:20,t:'sand'},{x:1170,w:90,h:62,t:'crate'},{x:1670,w:150,h:20,t:'metal'},{x:2190,w:100,h:60,t:'sand'},{x:2730,w:170,h:20,t:'crate'},{x:3310,w:96,h:64,t:'metal'},{x:3890,w:150,h:20,t:'sand'}],soldiers:[260,440,620,800,980,1160,1350,1540,1730,1920,2120,2320,2520,2720,2920,3120,3320,3520,3720,3920,4120,4300],tanks:[480,900,1320,1780,2260,2780,3300,3820,4250],pickups:[140,480,820,1240,1660,2080,2500,2920,3340,3760,4180]}
+    ];
+    // The original twelve fronts are reused as a second campaign arc, keeping each front distinct while expanding the run to 24.
+    const firstCampaign=levels.slice();
+    firstCampaign.forEach((front,index)=>levels.push({...front,name:'ARC 2 // '+front.name,width:front.width+180,cover:front.cover.map(c=>({...c,x:c.x+70})),soldiers:front.soldiers.map(x=>x+70),tanks:front.tanks.map(x=>x+70),pickups:front.pickups.map(x=>x+70)}));
+
+    function soldier(x,level,ally=false){return{x,y:groundY-42,w:22,h:42,type:ally?'ally':'soldier',ally,hp:ally?100:9+level*3,maxHp:ally?100:9+level*3,facing:ally?1:-1,shot:Math.random(),flash:0,step:0,walkSpeed:0,dead:false}}
+    function tank(x,level){return{x,y:groundY-50,w:76,h:50,type:'tank',hp:18+level*7,maxHp:18+level*7,facing:-1,shot:1.6+Math.random(),flash:0,recoil:0}}
+    function makeLevel(index){
+      const l=levels[index],pickTypes=['coin','fireball','health','rapid','shield','speed','fireball'];
+      game.level=index;game.worldWidth=l.width;game.cover=l.cover.map(c=>({...c,y:groundY-c.h}));
+      // Twenty-five extra soldiers are created once when this front is built; they are not appended during updates.
+      const reinforcementPositions=Array.from({length:25},(_,i)=>Math.min(l.width-120,110+i*97));
+      game.enemies=[...l.soldiers.map(x=>soldier(x,index)),...reinforcementPositions.map(x=>soldier(x,index)),...l.tanks.map(x=>tank(x,index))];
+      game.allies=equippedVehicle?[]:recruitedClasses.map((type,i)=>{const ally=soldier(Math.max(38,72-(i+1)*32),index,true);ally.classType=type;ally.maxHp={scout:150,rifle:220,heavy:300}[type]||150;ally.hp=ally.maxHp;return ally;});
+      game.pickups=l.pickups.map((x,i)=>({x,y:groundY-34,w:18,h:18,type:pickTypes[i%pickTypes.length],collected:false,bob:i}));
+      game.player.x=72;game.player.y=groundY-game.player.h;game.player.vy=0;game.player.onGround=true;game.cameraX=0;game.artillery=null;game.artilleryClock=6;game.vehicle=equippedVehicle?{id:equippedVehicle,x:game.player.x-18,y:groundY-24,w:58,h:24,wBase:58,hBase:24,vy:0,onGround:true}:null;
+      // Ogni caricamento di settore è l'unico punto di rigenerazione, senza toccare i progressi.
+      game.health=game.maxHealth;
+      game.feedback='SETTORE '+(index+1)+': '+l.name;game.feedbackColor='#ffe47a';game.feedbackTime=2;
+    }
+    function freshGame(){
+      game={running:false,over:false,inShop:false,level:0,worldWidth:0,cover:[],enemies:[],allies:[],pickups:[],bullets:[],particles:[],cameraX:0,health:1000,maxHealth:1000,coins:loadCredits(),deaths:0,deathTimer:0,deathX:0,deathY:0,artillery:null,artilleryClock:6,feedback:'',feedbackColor:'#ffe47a',feedbackTime:0,upgrades:{damage:false,fire:false,health:false,speed:false,burst:false,spread:false,rail:false,grenade:false},weapon:'standard',player:{x:72,y:389,w:22,h:42,vx:0,vy:0,facing:1,shot:0,flash:0,onGround:true,crouch:false,shield:0,shieldImpact:0,shieldImpactPower:0,rapid:0,speedBoost:0,fireballs:0,fireballCooldown:0,step:0,walkSpeed:0},vehicle:null};
+      makeLevel(0);updateHud();
+    }
+    function rect(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+    function coverHit(a){return game.cover.some(c=>rect(a,c))}
+    function particles(x,y,color,n=8,kind='normal'){for(let i=0;i<n;i++){const explosive=kind==='explosion';game.particles.push({x:x+(explosive?(Math.random()-.5)*18:0),y:y+(explosive?(Math.random()-.5)*10:0),dx:(Math.random()-.5)*(explosive?250:125),dy:(Math.random()-(explosive?.8:.75))*(explosive?220:135),size:explosive?2+Math.random()*6:2+Math.random()*3,life:explosive?.35+Math.random()*.8:.28+Math.random()*.5,color,kind,shape:explosive?(Math.random()>.58?'smoke':Math.random()>.38?'spark':'flame'):'square'})}}
+    function note(text,color='#ffe47a'){game.feedback=text;game.feedbackColor=color;game.feedbackTime=1.15}
+    function addBullet(x,y,dir,team,vy=0,power=1){game.bullets.push({x,y,vx:dir*(team==='tank'?250:(team==='player-tank'&&equippedVehicle==='launcher')?620:team==='player-tank'?440:team==='player'?560:340),vy,team,power,life:team==='tank'?1.6:1.25,w:team==='tank'?22:team==='player-tank'?30:team==='player'?9:7,h:team==='tank'?12:3,age:0})}
+    function playerAimVy(x,y,dir){const target=game.enemies.filter(e=>e.hp>0&&((e.x-x)*dir)>-18).sort((a,b)=>Math.abs(a.x-x)-Math.abs(b.x-x))[0];if(!target)return 0;const dx=Math.max(55,Math.abs(target.x+target.w/2-x));return (target.y+target.h*.45-y)/dx*560*dir}
+    function movePlayer(dx){const p=game.player;p.x=Math.max(0,Math.min(game.worldWidth-p.w,p.x+dx));if(coverHit(p))p.x-=dx}
+    function hasLineOfFire(from,target){
+      const startX=from.x+from.w/2,startY=from.y+from.h*.42,endX=target.x+target.w/2,endY=target.y+target.h*.5;
+      const steps=Math.max(8,Math.ceil(Math.abs(endX-startX)/18));
+      for(let i=1;i<steps;i++){
+        const t=i/steps,probe={x:startX+(endX-startX)*t-2,y:startY+(endY-startY)*t-2,w:4,h:4};
+        if(game.cover.some(c=>rect(probe,c)))return false;
+      }
+      return true;
+    }
+
+    const skins=[{id:'field',name:'OPERATORE CAMPO',color:'#294438',accent:'#87a066',unlocked:true},{id:'desert',name:'DESERTO ROSSO',color:'#765331',accent:'#d0a05e',unlocked:true},{id:'winter',name:'NEVE ARTICA',color:'#607b82',accent:'#d8eee2',unlocked:true},{id:'ember',name:'FIAMMA CREMISI',color:'#713a32',accent:'#f09a55',unlocked:true}];
+    let selectedSkin='field',equippedSkin='field';
+    let recruitedSoldiers=0;
+    let recruitedClasses=[];
+    const vehicles=[{id:'pickup',name:'CAMIONCINO',cost:85,bonus:'MOBILITÀ +',speed:1.12,armor:.62,recoil:.82,offense:1,agility:1.08},{id:'helicopter',name:'ELICOTTERO',cost:160,bonus:'AGILITÀ +',speed:1.18,armor:.48,recoil:.72,offense:1,agility:1.3},{id:'car',name:'AUTO',cost:110,bonus:'MOBILITÀ ++',speed:1.28,armor:.45,recoil:.78,offense:1,agility:1.16},{id:'tank',name:'CARRO ARMATO',cost:220,bonus:'CORAZZATURA ++',speed:.9,armor:.28,recoil:.48,offense:1.15,agility:.82},{id:'truck',name:'CAMION',cost:135,bonus:'CORAZZATURA +',speed:.96,armor:.38,recoil:.58,offense:1.05,agility:.88},{id:'launcher',name:'LANCIAMISSILI',cost:280,bonus:'OFFENSIVA ++',speed:.88,armor:.5,recoil:.68,offense:1.45,agility:.9}];
+    const vehicleState=Object.fromEntries(vehicles.map(v=>[v.id,false]));
+    let equippedVehicle=null;
+    function openVehicles(){document.getElementById('vehicles-screen').classList.remove('is-hidden');document.getElementById('vehicles-message').textContent='';renderVehicles()}
+    function closeVehicles(){document.getElementById('vehicles-screen').classList.add('is-hidden')}
+    function renderVehicles(){const unequipButton=document.getElementById('unequip-vehicle');unequipButton.disabled=!equippedVehicle;const grid=document.getElementById('vehicles-grid');grid.replaceChildren();vehicles.forEach(v=>{const card=document.createElement('article');card.className='canva-card border-2 p-3 bg-[#293524]';const title=document.createElement('h3');title.className='font-bold text-[#ffe27a]';title.textContent=v.name;const bonus=document.createElement('p');bonus.className='mt-1 text-[10px] font-bold text-[#bde77c]';bonus.textContent='BONUS: '+v.bonus;const price=document.createElement('p');price.className='mt-1 text-xs text-[#e7dfb4]';price.textContent=v.cost+' CR';const button=document.createElement('button');button.type='button';button.className='canva-button pixel-button mt-3 w-full border-2 px-2 py-2 text-xs font-bold bg-[#b9803e] text-[#171b12]';button.textContent=vehicleState[v.id]?(equippedVehicle===v.id?'EQUIPAGGIATO':'EQUIPAGGIA'):'ACQUISTA';button.disabled=!!equippedVehicle&&equippedVehicle!==v.id&&!vehicleState[v.id]||(!vehicleState[v.id]&&game.coins<v.cost);button.addEventListener('click',()=>buyVehicle(v));card.append(title,bonus,price,button);grid.appendChild(card)})}
+    function buyVehicle(v){if(!vehicleState[v.id]){if(!spendCredits(v.cost)){document.getElementById('vehicles-message').textContent='CREDITO INSUFFICIENTE';return}vehicleState[v.id]=true}equippedVehicle=v.id;document.getElementById('vehicles-message').textContent=v.name+' EQUIPAGGIATO · ALLEATI DISABILITATI';renderVehicles()}
+    function unequipVehicle(){if(!equippedVehicle)return;equippedVehicle=null;if(game){game.vehicle=null;const p=game.player;p.y=groundY-p.h;p.vy=0;p.onGround=true;game.allies=recruitedClasses.map((type,i)=>{const ally=soldier(Math.max(38,72-(i+1)*32),game.level,true);ally.classType=type;ally.maxHp={scout:150,rifle:220,heavy:300}[type]||150;ally.hp=ally.maxHp;return ally})}document.getElementById('vehicles-message').textContent='VEICOLO DISEQUIPAGGIATO · ALLEATI RIATTIVATI';renderVehicles();updateHud()}
+    const CREDIT_STORAGE_KEY='battlefield-pixel-credits';
+    let persistedCredits=0;
+    function loadCredits(){try{const saved=Number.parseInt(localStorage.getItem(CREDIT_STORAGE_KEY)||'0',10);if(Number.isFinite(saved)&&saved>=0)persistedCredits=saved}catch(e){}return persistedCredits}
+    function saveCredits(){if(!game)return;const next=Math.max(0,Math.floor(game.coins));persistedCredits=next;try{localStorage.setItem(CREDIT_STORAGE_KEY,String(next))}catch(e){}}
+    function spendCredits(cost){if(!game||game.coins<cost)return false;game.coins-=cost;saveCredits();updateHud();return true}
+    function drawSkinPreview(){const c=document.getElementById('skin-preview'),p=c.getContext('2d'),s=skins.find(x=>x.id===selectedSkin)||skins[0];p.clearRect(0,0,100,150);p.imageSmoothingEnabled=false;p.fillStyle='#1b251b';p.fillRect(12,128,76,5);p.fillStyle='#172118';p.fillRect(30,93,13,36);p.fillRect(57,93,13,36);p.fillStyle=s.color;p.fillRect(25,43,50,55);p.fillStyle=s.accent;p.fillRect(32,48,36,12);p.fillStyle='#172118';p.fillRect(23,35,54,12);p.fillRect(19,42,62,6);p.fillStyle='#c89b6d';p.fillRect(57,57,13,15);p.fillStyle=s.accent;p.fillRect(31,78,38,7);p.fillStyle='#1d241c';p.fillRect(68,68,27,8)}
+    function renderSkins(){const grid=document.getElementById('skins-grid');grid.replaceChildren();skins.forEach(s=>{const b=document.createElement('button');b.type='button';b.className='pixel-button border-2 p-3 text-left text-xs font-bold '+(s.unlocked?'bg-[#293524]':'bg-[#202820] opacity-60');b.disabled=!s.unlocked;b.innerHTML='<span class="block">'+s.name+'</span><span class="mt-1 block text-[10px]">'+(s.unlocked?(s.id===equippedSkin?'EQUIPAGGIATA':s.id===selectedSkin?'SELEZIONATA':'SBLOCCATA'):'BLOCCATA')+'</span>';b.addEventListener('click',()=>{selectedSkin=s.id;drawSkinPreview();renderSkins()});grid.appendChild(b)});drawSkinPreview()}
+    function openRecruitment(){document.getElementById('recruitment-screen').classList.remove('is-hidden');renderRecruitment()} function closeRecruitment(){document.getElementById('recruitment-screen').classList.add('is-hidden')} function renderRecruitment(){document.getElementById('recruitment-coins').textContent='RISORSE: '+game.coins+' CR';document.getElementById('recruitment-count').textContent='SOLDATI ALLEATI: '+recruitedSoldiers;document.querySelectorAll('[data-recruit-cost]').forEach(b=>b.disabled=game.coins<Number(b.dataset.recruitCost))} function buyRecruit(type){const costs={scout:23,rifle:38,heavy:57};const cost=costs[type];if(!cost)return;if(!spendCredits(cost)){document.getElementById('recruitment-message').textContent='RISORSE INSUFFICIENTI';return}recruitedClasses.push(type);recruitedSoldiers=recruitedClasses.length;document.getElementById('recruitment-message').textContent='SOLDATO RECLUTATO';renderRecruitment();updateHud()} function openSkins(){document.getElementById('skins-screen').classList.remove('is-hidden');document.getElementById('skins-message').textContent='';renderSkins()}
+    function closeSkins(){document.getElementById('skins-screen').classList.add('is-hidden')}
+    function applySkin(){const s=skins.find(x=>x.id===selectedSkin);if(!s||!s.unlocked)return;equippedSkin=s.id;document.getElementById('skins-message').textContent='SKIN EQUIPAGGIATA';renderSkins()}
+    function startGame(){freshGame();game.running=true;['start-screen','victory-screen','defeat-screen','shop-screen','armory-screen','skins-screen','recruitment-screen','vehicles-screen'].forEach(id=>document.getElementById(id).classList.add('is-hidden'));canvas.focus()}
+    function restartMission(){freshGame();game.running=true;['start-screen','victory-screen','defeat-screen','shop-screen','armory-screen','skins-screen'].forEach(id=>document.getElementById(id).classList.add('is-hidden'));canvas.focus()}
+    const armoryItems={burst:{cost:38,card:'armory-burst-card',button:'armory-burst-buy'},spread:{cost:46,card:'armory-spread-card',button:'armory-spread-buy'},rail:{cost:61,card:'armory-rail-card',button:'armory-rail-buy'},grenade:{cost:72,card:'armory-grenade-card',button:'armory-grenade-buy'},minigun:{cost:143,card:'armory-minigun-card',button:'armory-minigun-buy'}};
+    function renderArmory(){document.getElementById('armory-coins').textContent='CREDITO: '+game.coins+' CR';Object.entries(armoryItems).forEach(([name,d])=>{const owned=game.upgrades[name],button=document.getElementById(d.button),card=document.getElementById(d.card);card.classList.toggle('owned',owned);card.classList.toggle('equipped',owned&&game.weapon===name);button.disabled=!owned&&game.coins<d.cost;});}
+    function buyArmory(name){const d=armoryItems[name];if(!d||game.upgrades[name]){if(d&&game.upgrades[name]){game.weapon=name;document.getElementById('armory-message').textContent='ARMA EQUIPAGGIATA';renderArmory();}return}if(game.coins<d.cost){document.getElementById('armory-message').textContent='SALDO INSUFFICIENTE';return}if(!spendCredits(d.cost)){document.getElementById('armory-message').textContent='SALDO INSUFFICIENTE';return}game.upgrades[name]=true;game.weapon=name;document.getElementById('armory-message').textContent='ACQUISTO RIUSCITO · ARMA EQUIPAGGIATA';renderArmory();updateHud();}
+    function openArmory(){document.getElementById('armory-screen').classList.remove('is-hidden');document.getElementById('armory-message').textContent='';renderArmory()}
+    function closeArmory(){document.getElementById('armory-screen').classList.add('is-hidden')}
+    function endGame(win){
+      if(game.over)return;game.running=false;game.over=true;
+      document.getElementById(win?'victory-screen':'defeat-screen').classList.remove('is-hidden');
+      updateHud();
+    }
+    function returnToLobby(){
+      game.running=false;game.over=false;game.inShop=false;
+      ['victory-screen','defeat-screen','shop-screen','armory-screen','skins-screen','recruitment-screen'].forEach(id=>document.getElementById(id).classList.add('is-hidden'));
+      document.getElementById('start-screen').classList.remove('is-hidden');
+      updateHud();
+    }
+    function openShop(){
+      if(game.inShop||game.over)return;
+      game.running=false;game.inShop=true;
+      document.getElementById('shop-screen').classList.remove('is-hidden');
+      document.getElementById('shop-message').textContent='SETTORE RIPULITO. PREPARA L’UNITÀ.';
+      renderShop();updateHud();
+    }
+    function continueMission(){
+      if(!game.inShop)return;
+      game.inShop=false;
+      document.getElementById('shop-screen').classList.add('is-hidden');
+      if(game.level<levels.length-1){makeLevel(game.level+1);game.running=true}
+      canvas.focus();updateHud();
+    }
+    function updateHud(){
+      if(!game)return;
+      const hp=Math.max(0,Math.ceil(game.health));
+      document.getElementById('health-bar').style.width=(hp/game.maxHealth*100)+'%';
+      document.getElementById('health-text').textContent=hp+' / '+game.maxHealth;
+      document.getElementById('coins-text').textContent=game.coins+' CR';
+      document.getElementById('objective-text').textContent='SETTORE '+(game.level+1)+' / '+levels.length;
+      document.getElementById('status-text').textContent=game.over?(game.health<=0?'UNITÀ PERSA':'MISSIONE COMPIUTA'):game.inShop?'BUNKER SICURO':game.running?(game.player.shield>0?'SCUDO ATTIVO':'IN MISSIONE'):'IN ATTESA';
+    }
+
+    const shopItems={damage:{cost:27,card:'card-damage',button:'buy-damage'},fire:{cost:27,card:'card-fire',button:'buy-fire'},health:{cost:34,card:'card-health',button:'buy-health'},speed:{cost:30,card:'card-speed',button:'buy-speed'},burst:{cost:38,card:'card-burst',button:'buy-burst'},spread:{cost:46,card:'card-spread',button:'buy-spread'},rail:{cost:61,card:'card-rail',button:'buy-rail'},grenade:{cost:72,card:'card-grenade',button:'buy-grenade'}};
+    function buy(name){
+      const d=shopItems[name],u=game.upgrades;
+      if(!d||game.inShop===false)return;
+      if(u[name]){
+        if(name==='burst'||name==='spread'){
+          game.weapon=name;
+          document.getElementById('shop-message').textContent='ARMA EQUIPAGGIATA';
+          note('ARMA EQUIPAGGIATA','#bde77c');
+          renderShop();updateHud();
+        }
+        return;
+      }
+      if(game.coins<d.cost){document.getElementById('shop-message').textContent='CREDITO INSUFFICIENTE';renderShop();return}
+      if(!spendCredits(d.cost)){document.getElementById('shop-message').textContent='CREDITO INSUFFICIENTE';renderShop();return}u[name]=true;
+      if(name==='health'){game.maxHealth+=40;game.health=Math.min(game.maxHealth,game.health+40)}
+      if(name==='burst'||name==='spread')game.weapon=name;
+      document.getElementById('shop-message').textContent='POTENZIAMENTO INSTALLATO';
+      note('UPGRADE ATTIVO','#bde77c');renderShop();updateHud();
+    }
+    function renderShop(){
+      document.getElementById('shop-coins').textContent='CREDITO: '+game.coins+' CR';
+      Object.entries(shopItems).forEach(([name,d])=>{
+        const own=game.upgrades[name],button=document.getElementById(d.button),card=document.getElementById(d.card);
+        card.classList.toggle('owned',own);card.classList.toggle('equipped',(name==='burst'||name==='spread')&&game.weapon===name);
+        button.disabled=!own&&game.coins<d.cost;
+      });
+    }
+
+    function collect(i){
+      i.collected=true;const p=game.player;
+      if(i.type==='coin'){game.coins+=10;saveCredits();note('+10 CR')}
+      if(i.type==='health'){game.health=Math.min(game.maxHealth,game.health+28);note('+ SALUTE','#f28b68')}
+      if(i.type==='shield'){p.shield=7;note('SCUDO 7s','#7fddde')}
+      if(i.type==='speed'){p.speedBoost=7;note('VELOCITÀ 7s','#a5e879')}
+      if(i.type==='rapid'){p.rapid=7;note('FUOCO RAPIDO 7s','#f5d66a')}if(i.type==='fireball'){p.fireballs=Math.min(3,p.fireballs+2);note('PALLE DI FUOCO · 2 CARICHE','#ff9652')}
+      particles(i.x+9,i.y+9,'#ffe273',12);updateHud();
+    }
+    function damagePlayer(amount,x,y){const vehicleData=equippedVehicle?vehicles.find(v=>v.id===equippedVehicle):null;if(vehicleData)amount*=vehicleData.armor;if(game.player.shield>0){game.player.shieldImpact=.28;game.player.shieldImpactPower=Math.min(1,amount/38);note('SCUDO ASSORBE','#8edee0');particles(x,y,'#76d8dd',8+Math.round(amount/4),'explosion');return}game.health-=amount;game.player.flash=.25;particles(x,y,'#e0644c',12);if(game.health<=0){game.deaths++;game.deathX=game.player.x;game.deathY=game.player.y;game.deathTimer=1.15;game.running=false;game.player.vx=0;game.player.vy=0;if(game.deaths>=3)game.over=true}}
+    function createArtillery(){game.artillery={x:Math.max(120,Math.min(game.worldWidth-120,game.player.x+(Math.random()-.15)*320)),radius:58,timer:1.35,state:'warning'};game.artilleryClock=6+Math.random()*3}
+    function detonateArtillery(){
+      const a=game.artillery;if(!a)return;
+      particles(a.x,groundY-18,'#fff4a3',18,'explosion');
+      particles(a.x,groundY-12,'#ffcf4d',24,'explosion');
+      particles(a.x,groundY-8,'#e85b38',20,'explosion');
+      particles(a.x,groundY-30,'#7b7564',14,'explosion');
+      if(Math.abs(game.player.x-a.x)<a.radius+20)damagePlayer(38,a.x,groundY-20);
+      game.enemies=game.enemies.filter(e=>{if(Math.abs(e.x-a.x)<a.radius+(e.type==='tank'?44:22)){particles(e.x,e.y,'#cf5844',18);game.coins+=e.type==='tank'?16:6;saveCredits();return false}return true});
+      game.artillery={...a,timer:.35,state:'blast'};
+    }
+
+    function update(dt){
+      if(game.deathTimer>0){game.deathTimer=Math.max(0,game.deathTimer-dt);if(game.deathTimer===0&&!game.over){game.player.x=game.deathX;game.player.y=game.deathY;game.health=game.maxHealth;game.player.shield=0;game.player.rapid=0;game.player.speedBoost=0;game.running=true;updateHud()}return}
+      if(!game.running)return;
+      const p=game.player,left=keys.a,right=keys.d,jump=keys.w||keys[' '],crouch=game.vehicle&&equippedVehicle==='helicopter'&&(keys.s||keys.ArrowDown);if(keys._fireball&&!keys._fired&&p.fireballs>0&&p.fireballCooldown<=0){const bx=p.x+(p.facing>0?p.w+4:-16),by=p.y+16;addBullet(bx,by,p.facing,'player',playerAimVy(bx,by,p.facing),10);game.bullets[game.bullets.length-1].fireball=true;p.fireballs--;p.fireballCooldown=0.42;keys._fired=true;note('PALLOLA DI FUOCO','#ff9652');particles(bx,by,'#ff713f',14,'explosion')}
+      p.crouch=crouch&&p.onGround;
+      const vehicleData=equippedVehicle?vehicles.find(v=>v.id===equippedVehicle):null;const dir=(right?1:0)-(left?1:0),vehicleBoost=vehicleData?.speed||1,speed=(p.crouch?92:158)*(game.upgrades.speed?1.2:1)*vehicleBoost*(p.speedBoost>0?1.25:1);
+      if(dir){p.facing=dir;movePlayer(dir*speed*dt);p.walkSpeed=Math.min(1,Math.abs(dir)*speed/158);p.step+=dt*(8+speed*.018)}else{p.walkSpeed=Math.max(0,p.walkSpeed-dt*5)}
+      if(jump&&p.onGround&&!p.crouch){p.vy=-420;p.onGround=false;if(game.vehicle){game.vehicle.vy=p.vy;game.vehicle.onGround=false}}
+      if(equippedVehicle==='helicopter'){const targetY=groundY-145;p.vy+=((keys.w||keys[' '])?-520:(keys.s||keys.ArrowDown)?520:0)*dt;p.y+=p.vy*dt;p.y+=(targetY-p.y)*Math.min(1,dt*2.8);p.y=Math.max(42,Math.min(groundY-p.h-24,p.y));p.onGround=false;if(game.vehicle){game.vehicle.y=p.y+p.h-8;game.vehicle.vy=p.vy;game.vehicle.onGround=false}}else{p.vy+=760*dt;p.y+=p.vy*dt;if(p.y+p.h>=groundY){p.y=groundY-p.h;p.vy=0;p.onGround=true;if(game.vehicle){game.vehicle.vy=0;game.vehicle.onGround=true}}if(game.vehicle){game.vehicle.vy+=760*dt;game.vehicle.y+=game.vehicle.vy*dt;game.vehicle.x=p.x-18;if(!game.vehicle.onGround&&game.vehicle.y+game.vehicle.h>=groundY){game.vehicle.y=groundY-game.vehicle.h;game.vehicle.vy=0;game.vehicle.onGround=true}}}
+      ['shot','flash','shield','shieldImpact','rapid','speedBoost','fireballCooldown'].forEach(k=>p[k]=Math.max(0,p[k]-dt));
+      if(mouseFiring&&p.shot===0){
+        const bx=p.x+(p.facing>0?p.w+2:-8),by=p.y+(p.crouch?28:17),rate=(game.weapon==='minigun'?.022:game.upgrades.fire?.13:.22)*(p.rapid>0?.55:1);
+        const tankStyleShot=equippedVehicle==='tank'||equippedVehicle==='helicopter';
+        addBullet(bx,by,p.facing,tankStyleShot?'player-tank':'player',playerAimVy(bx,by,p.facing),1);
+        if(equippedVehicle==='helicopter')game.bullets[game.bullets.length-1].heliTank=true;
+        
+        if(game.weapon==='burst'){addBullet(bx,by,p.facing,'player',-34);addBullet(bx,by,p.facing,'player',34)}
+        if(game.weapon==='spread'){addBullet(bx,by,p.facing,'player',-74);addBullet(bx,by,p.facing,'player',74)}
+        if(game.weapon==='rail'){addBullet(bx,by,p.facing,'player',0,4)}
+        if(game.weapon==='grenade'){addBullet(bx,by,p.facing,'player',-150,3);p.shot=rate*2}
+        particles(bx,by,'#ffe27a',5);p.shot=rate;
+      }
+      game.allies=game.allies.filter(a=>{if(a.hp<=0){particles(a.x+11,a.y+20,'#e0644c',12);return false}const target=game.enemies.filter(e=>e.hp>0).sort((x,y)=>Math.abs(x.x-a.x)-Math.abs(y.x-a.x))[0];const followX=p.x-34-(game.allies.indexOf(a)*28);if(Math.abs(a.x-followX)>18){a.facing=followX>a.x?1:-1;a.x+=a.facing*105*dt;a.walkSpeed=1;a.step+=dt*8}else a.walkSpeed=Math.max(0,a.walkSpeed-dt*5);if(target&&Math.abs(target.x-a.x)<390){a.facing=target.x>a.x?1:-1;a.shot-=dt;if(a.shot<=0){addBullet(a.x+(a.facing>0?a.w+2:-7),a.y+18,a.facing,'player',0,1);a.shot=.62+Math.random()*.28;particles(a.x+a.facing*15,a.y+18,'#bde77c',3)}}return true});
+      game.enemies.forEach(e=>{
+        // Enemy targeting includes the player and allies only; enemy units are never valid targets.
+        const targets=[p,...game.allies].filter(target=>target&&target.hp>0);
+        const target=targets.sort((a,b)=>Math.abs(a.x-e.x)-Math.abs(b.x-e.x))[0]||p;
+        const dx=target.x-e.x,dist=Math.abs(dx);e.shot-=dt;e.flash=Math.max(0,e.flash-dt);e.recoil=Math.max(0,(e.recoil||0)-dt);e.facing=dx>=0?1:-1;
+        if(e.type==='soldier'){
+          const verticalGap=Math.abs((target.y+target.h*.5)-(e.y+e.h*.42));
+          const canAimAtTarget=verticalGap<300&&hasLineOfFire(e,target);
+          if(dist<520&&dist>125&&!coverHit({...e,x:e.x+Math.sign(dx)*76*dt})){e.x+=Math.sign(dx)*76*dt;e.walkSpeed=1;e.step+=dt*7}else{e.walkSpeed=Math.max(0,(e.walkSpeed||0)-dt*4)}
+          if(dist<430&&e.shot<=0&&canAimAtTarget){
+            const shotX=e.x+(e.facing>0?e.w+2:-7),shotY=e.y+18,targetY=target.y+target.h*.5;
+            addBullet(shotX,shotY,e.facing,'enemy',(targetY-shotY)*.9,1);e.shot=.52+Math.random()*.28
+          }
+        }else{
+          if(dist<600&&dist>260&&!coverHit({...e,x:e.x+Math.sign(dx)*22*dt,w:e.w}))e.x+=Math.sign(dx)*22*dt;
+          if(dist<540&&e.shot<=0){addBullet(e.x+(e.facing>0?e.w-2:-10),e.y+19,e.facing,'tank',(target.y-e.y)*.12,1);e.shot=1.55+Math.random()*.55;e.recoil=.18;particles(e.x+(e.facing>0?e.w:0),e.y+20,'#f2b752',10)}
+        }
+      });
+      game.pickups.forEach(i=>{if(!i.collected&&rect(p,i))collect(i)});
+      game.artilleryClock-=dt;if(!game.artillery&&game.artilleryClock<=0)createArtillery();
+      if(game.artillery){game.artillery.timer-=dt;if(game.artillery.state==='warning'&&game.artillery.timer<=0)detonateArtillery();else if(game.artillery.state==='blast'&&game.artillery.timer<=0)game.artillery=null}
+      for(let i=game.bullets.length-1;i>=0;i--){
+        const b=game.bullets[i];b.age+=dt;b.x+=b.vx*dt;b.y+=b.vy*dt;b.vy+=(b.fireball?42:0)*dt;b.life-=dt;const box={x:b.x,y:b.y,w:b.w,h:b.h};
+        const hitsCover=!b.flame&&!b.missile&&game.cover.some(c=>rect(box,c));
+        if(b.life<=0||b.x<0||b.x>game.worldWidth||hitsCover){game.bullets.splice(i,1);continue}
+        if((b.team==='enemy'||b.team==='tank')){
+          if(rect(box,p)){damagePlayer(b.team==='tank'?34:15,b.x,b.y);if(b.team==='tank')particles(b.x,b.y,'#ef9954',28,'explosion');game.bullets.splice(i,1);continue}
+          const ally=game.allies.find(a=>rect(box,a));
+          if(ally){ally.hp-=b.team==='tank'?18:11;ally.flash=.16;particles(b.x,b.y,'#e0644c',5);game.bullets.splice(i,1);continue}
+        }
+        if(b.team==='player'||b.team==='player-tank'){
+          const target=game.enemies.find(e=>rect(box,e));
+          if(target){
+            {
+              const hitDamage=b.fireball?10:(b.heliTank?18:(b.team==='player-tank'?28:(game.upgrades.damage?2:1)));target.hp-=hitDamage;target.flash=.16;particles(b.x,b.y,b.fireball?'#ff713f':b.heliTank?'#ffad52':b.team==='player-tank'?'#ffb347':target.type==='tank'?'#c8d1c0':'#ffe47a',b.fireball?18:b.heliTank?14:b.team==='player-tank'?26:8,b.fireball||b.heliTank||b.team==='player-tank'?'explosion':'normal');game.bullets.splice(i,1);
+            }
+            if(target.hp<=0){game.enemies.splice(game.enemies.indexOf(target),1);game.coins+=target.type==='tank'?24:8;saveCredits();note(target.type==='tank'?'+24 CR · CARRO DISTRUTTO':'+8 CR');particles(target.x+target.w/2,target.y+20,'#e36c48',target.type==='tank'?28:15)}
+          }
+        }
+      }
+      game.particles.forEach(q=>{q.x+=q.dx*dt;q.y+=q.dy*dt;q.dy+=(q.kind==='explosion'&&q.shape==='smoke'?28:100)*dt;q.dx*=q.kind==='explosion'?.985:1;q.life-=dt});game.particles=game.particles.filter(q=>q.life>0);
+      game.feedbackTime=Math.max(0,game.feedbackTime-dt);
+      game.cameraX+=(p.x-W*.34-game.cameraX)*Math.min(1,dt*4);game.cameraX=Math.max(0,Math.min(game.worldWidth-W,game.cameraX));
+      if(p.x+p.w>=game.worldWidth-70){
+        if(game.level===levels.length-1){game.coins+=100;saveCredits();note('+100 CR · PERCORSO COMPLETATO');endGame(true)}else{game.coins+=25;saveCredits();note('+25 CR · CHECKPOINT');openShop();}
+      }
+      updateHud();
+    }
+
+    function sx(x){return Math.round(x-game.cameraX)}
+    function drawBackground(){
+      const l=levels[game.level],t=performance.now()*.001;
+      // Distinct depth bands keep the playable silhouettes readable while adding motion and atmosphere.
+      ctx.fillStyle=l.sky;ctx.fillRect(0,0,W,H);
+      const glow=ctx.createLinearGradient(0,80,0,groundY);glow.addColorStop(0,game.level===2?'rgba(255,156,99,.18)':game.level===1?'rgba(145,194,214,.16)':'rgba(226,211,130,.16)');glow.addColorStop(1,'rgba(15,24,17,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,W,groundY);
+      ctx.globalAlpha=.5;for(let i=0;i<18;i++){const x=((i*173-game.cameraX*.16)%1100+1100)%1100-70,y=72+(i%5)*34;ctx.fillStyle=game.level===2?'#b46a58':game.level===1?'#8b9aa0':'#9b9d6c';ctx.fillRect(x,y,38+(i%4)*16,2);ctx.fillRect(x+12,y+4,18,2)}ctx.globalAlpha=1;
+      ctx.fillStyle=l.mid;ctx.fillRect(0,350,W,82);
+      for(let i=0;i<22;i++){const x=((i*141-game.cameraX*.28)%1200+1200)%1200-100,h=42+(i%4)*16;ctx.fillStyle=game.level===2?(i%2?'#643d35':'#70453a'):(game.level===1?(i%2?'#313b46':'#3d4853'):(i%2?'#4b5b3d':'#556340'));ctx.fillRect(x,350-h,18+(i%3)*12,h);ctx.fillRect(x+7,350-h-10,5,10)}
+      ctx.globalAlpha=.78;for(let i=0;i<15;i++){const x=sx(i*240);ctx.fillStyle=game.level===2?(i%2?'#74463b':'#815047'):(game.level===1?(i%2?'#26323b':'#35434d'):(i%2?'#465a39':'#526340'));ctx.beginPath();ctx.moveTo(x-80,364);ctx.lineTo(x+90,230-(i%3)*28);ctx.lineTo(x+220,364);ctx.fill()}ctx.globalAlpha=1;
+      if(game.level===1){for(let i=0;i<6;i++){const x=sx(i*480+160);ctx.fillStyle='#252d34';ctx.fillRect(x,170,42,180);ctx.fillStyle='#8b874f';ctx.fillRect(x+9,190,5,140);ctx.fillRect(x+26,190,5,140)}}
+      const haze=ctx.createLinearGradient(0,330,0,groundY);haze.addColorStop(0,'rgba(210,190,125,.02)');haze.addColorStop(1,'rgba(8,14,10,.28)');ctx.fillStyle=haze;ctx.fillRect(0,330,W,groundY-330);
+      ctx.globalAlpha=.22;for(let i=0;i<9;i++){const x=((i*127+t*7)%1100)-80;ctx.fillStyle=game.level===2?'#d07b58':'#c0bd82';ctx.fillRect(x,groundY-18-(i%3)*5,52+(i%4)*14,2)}ctx.globalAlpha=1;
+      ctx.fillStyle='#283023';ctx.fillRect(0,groundY,W,5);ctx.fillStyle='#8b915d';ctx.fillRect(0,groundY+5,W,2);
+    }
+    function drawCover(c){
+      const x=sx(c.x);if(x+c.w<0||x>W)return;
+      ctx.fillStyle='#3e3828';ctx.fillRect(x,c.y,c.w,c.h);
+      if(c.t==='sand'){ctx.fillStyle='#9b8652';ctx.fillRect(x+1,c.y,c.w-2,6);for(let i=4;i<c.w;i+=18){ctx.fillStyle='#806d45';ctx.fillRect(x+i,c.y+7,16,10)}}
+      else if(c.t==='metal'){ctx.fillStyle='#536069';ctx.fillRect(x+3,c.y+3,c.w-6,c.h-6);ctx.fillStyle='#93a0a1';ctx.fillRect(x+7,c.y+7,c.w-14,4);ctx.fillStyle='#253037';ctx.fillRect(x+c.w/2-2,c.y+4,4,c.h-8)}
+      else{ctx.fillStyle='#765331';ctx.fillRect(x+3,c.y+3,c.w-6,c.h-6);ctx.strokeStyle='#b68a55';ctx.strokeRect(x+5,c.y+5,c.w-10,c.h-10)}
+    }
+    function drawSoldier(u,enemy){
+      const x=sx(u.x),y=Math.round(u.y),f=u.facing;ctx.fillStyle='rgba(5,9,6,.62)';ctx.fillRect(x-1,groundY+1,27,5);const stride=Math.round(Math.sin(u.step)*4*(u.walkSpeed||0));ctx.fillStyle='#111711';ctx.fillRect(x+4,y+31+stride,7,11);ctx.fillRect(x+15,y+31-stride,7,11);ctx.fillStyle='#263126';ctx.fillRect(x+2,y+39+stride,10,3);ctx.fillRect(x+14,y+39-stride,10,3);const skin=skins.find(s=>s.id===equippedSkin)||skins[0];ctx.fillStyle=enemy?'#512f2d':skin.color;ctx.fillRect(x+3,y+13,19,19);ctx.fillStyle=u.flash>0?'#fff4bd':enemy?'#52312f':skin.color;ctx.fillRect(x+5,y+14,15,15);ctx.fillStyle=enemy?'#c96755':'#7f9b70';ctx.fillRect(x+7,y+15,10,3);ctx.fillStyle=enemy?'#c45c48':'#87a066';ctx.fillRect(x+5,y+24,15,4);ctx.fillStyle='#172118';ctx.fillRect(x+2,y+16,4,12);ctx.fillRect(x+18,y+16,5,12);ctx.fillStyle=enemy?'#302322':'#263327';ctx.fillRect(x+4,y+3,17,6);ctx.fillRect(x+2,y+7,22,3);ctx.fillStyle='#c89b6d';ctx.fillRect(x+(f>0?15:5),y+11,6,5);const gx=f>0?x+17:x-8;ctx.fillStyle='#1d241c';ctx.fillRect(gx,y+17,13,4);ctx.fillStyle=enemy?'#df674e':'#f0cf61';ctx.fillRect(f>0?gx+14:gx-4,y+18,2,2);if(!enemy&&u.shield>0){const shieldX=x-14,shieldY=y-13,shieldW=50,shieldH=67,impact=u.shieldImpact>0?u.shieldImpactPower*(u.shieldImpact/.28):0;ctx.save();ctx.shadowColor='#071314';ctx.shadowBlur=0;ctx.globalAlpha=.3;ctx.fillStyle='#071b20';ctx.fillRect(shieldX+4,shieldY+6,shieldW,shieldH);ctx.globalAlpha=.78+impact*.18;ctx.fillStyle='#315c60';ctx.beginPath();ctx.moveTo(shieldX+10,shieldY);ctx.lineTo(shieldX+shieldW-10,shieldY);ctx.lineTo(shieldX+shieldW,shieldY+10);ctx.lineTo(shieldX+shieldW-3,shieldY+shieldH-8);ctx.lineTo(shieldX+shieldW/2,shieldY+shieldH);ctx.lineTo(shieldX+3,shieldY+shieldH-8);ctx.lineTo(shieldX,shieldY+10);ctx.closePath();ctx.fill();ctx.globalAlpha=.7;ctx.fillStyle='#8fb9b5';ctx.fillRect(shieldX+5,shieldY+8,4,shieldH-20);ctx.fillRect(shieldX+shieldW-9,shieldY+11,4,shieldH-25);ctx.globalAlpha=.95;ctx.strokeStyle=impact>.1?'#e9ffff':'#b9d9d2';ctx.lineWidth=3;ctx.stroke();ctx.beginPath();ctx.moveTo(shieldX+10,shieldY+2);ctx.lineTo(shieldX+shieldW-10,shieldY+2);ctx.lineTo(shieldX+shieldW-2,shieldY+11);ctx.lineTo(shieldX+shieldW-5,shieldY+shieldH-9);ctx.lineTo(shieldX+shieldW/2,shieldY+shieldH-2);ctx.lineTo(shieldX+5,shieldY+shieldH-9);ctx.lineTo(shieldX+2,shieldY+11);ctx.closePath();ctx.stroke();ctx.fillStyle='#17282a';ctx.fillRect(shieldX+15,shieldY+shieldH-15,20,6);ctx.fillStyle='#9fc7bd';ctx.fillRect(shieldX+19,shieldY+shieldH-17,12,3);ctx.globalAlpha=.9;ctx.fillStyle='#d9ffff';ctx.fillRect(shieldX+10,shieldY+7,3,shieldH-28);ctx.fillRect(shieldX+14,shieldY+5,10,2);ctx.restore()}
+    }
+    function drawTank(t){
+      const x=sx(t.x),y=Math.round(t.y),f=t.facing;if(x+t.w<0||x>W)return;
+      ctx.fillStyle='rgba(5,8,6,.62)';ctx.fillRect(x+2,groundY+1,75,6);
+      ctx.fillStyle='#18221a';ctx.fillRect(x+4,y+27,68,20);ctx.fillStyle=t.flash>0?'#edf0ca':'#465b45';ctx.fillRect(x+7,y+29,62,14);ctx.fillStyle='#1a261e';ctx.fillRect(x+7,y+42,62,9);
+      for(let i=0;i<4;i++){ctx.fillStyle='#0d1411';ctx.fillRect(x+12+i*14,y+44,8,8);ctx.fillStyle='#68745a';ctx.fillRect(x+14+i*14,y+46,4,4)}
+      ctx.fillStyle=t.flash>0?'#fff0a1':'#60754f';ctx.fillRect(x+19,y+13,37,18);ctx.fillStyle='#263525';ctx.fillRect(x+27,y+7,17,10);
+      const cannonX=f>0?x+53:x-21;ctx.fillStyle='#1d291f';ctx.fillRect(cannonX,y+15,28,7);ctx.fillStyle='#a95c43';ctx.fillRect(f>0?x+76:x-5,y+17,5,3);
+      ctx.fillStyle='#b7ba80';ctx.fillRect(x+28,y+11,5,4);
+      ctx.fillStyle='#171d16';ctx.fillRect(x+4,y-7,68,4);ctx.fillStyle='#d65345';ctx.fillRect(x+6,y-6,Math.max(0,64*(t.hp/t.maxHp)),2);
+    }
+    function drawPickup(i){
+      if(i.collected)return;const x=sx(i.x),y=i.y+Math.sin(Date.now()/160+i.bob)*3;if(x<-30||x>W+30)return;
+      ctx.fillStyle='#172016';ctx.fillRect(x-2,y-2,22,22);const map={coin:'#f1ca53',health:'#dc6654',shield:'#63cfd3',speed:'#9edc65',rapid:'#f1ab4e',fireball:'#f06b3b'};ctx.fillStyle=map[i.type];ctx.fillRect(x,y,18,18);ctx.fillStyle='#fff1a6';
+      if(i.type==='coin')ctx.fillRect(x+7,y+3,4,12);else if(i.type==='health'){ctx.fillRect(x+7,y+3,4,12);ctx.fillRect(x+3,y+7,12,4)}else if(i.type==='shield')ctx.fillRect(x+4,y+3,10,12);else if(i.type==='speed')ctx.fillRect(x+3,y+8,12,3);else ctx.fillRect(x+4,y+4,10,10);
+    }
+    function drawVehicle(){const v=game.vehicle;if(!v)return;const p=game.player;v.x=p.x-18;if(v.id==='tank'){drawTank({x:v.x,y:p.y+p.h-50,w:76,h:50,type:'tank',hp:1,maxHp:1,facing:p.facing,flash:p.flash||0,recoil:0});return}if(v.id==='helicopter'){v.y=p.y+p.h-8;const hx=sx(v.x);ctx.fillStyle='#18221a';ctx.fillRect(hx-4,v.y-7,66,4);ctx.fillStyle='#465b45';ctx.fillRect(hx+8,v.y+2,42,17);ctx.fillStyle='#8b9fa0';ctx.fillRect(hx+15,v.y+5,22,9);ctx.fillStyle='#263525';ctx.fillRect(hx+42,v.y-2,18,5);ctx.fillStyle='#aeb986';ctx.fillRect(hx+52,v.y+3,14,3);return}else{v.y=groundY-24}const x=sx(v.x);if(v.id==='launcher'){ctx.fillStyle='#171d16';ctx.fillRect(x-8,v.y-13,76,42);ctx.fillStyle='#6f4932';ctx.fillRect(x,v.y-9,60,32);ctx.fillStyle='#b86c3f';ctx.fillRect(x+9,v.y-17,43,10);ctx.fillStyle='#e6c06a';ctx.fillRect(x+17,v.y-14,28,4)}if(x+v.w<0||x>W)return;ctx.fillStyle='rgba(5,9,6,.62)';ctx.fillRect(x+2,groundY+1,v.w-2,5);ctx.fillStyle=v.id==='pickup'?'#8b6339':'#465b45';ctx.fillRect(x+3,v.y+7,v.w-8,14);ctx.fillStyle='#1a261e';ctx.fillRect(x+8,v.y+19,10,8);ctx.fillRect(x+v.w-18,v.y+19,10,8);ctx.fillStyle='#141b15';ctx.fillRect(x+8,v.y+3,25,9);ctx.fillStyle='#9aa16f';ctx.fillRect(x+12,v.y+5,16,5);ctx.fillStyle='#263525';ctx.fillRect(x+v.w-17,v.y+3,10,10);ctx.fillStyle='#b7ba80';ctx.fillRect(x+v.w-5,v.y+12,5,3)}
+    function drawExtraction(){const x=sx(game.worldWidth-70);if(x<-100||x>W+100)return;ctx.fillStyle='#2d5838';ctx.fillRect(x,85,70,groundY-85);ctx.fillStyle='#c7aa4e';ctx.fillRect(x+8,85,7,groundY-85);ctx.fillStyle='#f6dc78';ctx.font='bold 10px monospace';ctx.fillText(game.level===2?'ESTRAZIONE':'BUNKER',x-15,110)}
+    function drawArtillery(){const a=game.artillery;if(!a)return;const x=sx(a.x);if(a.state==='warning'){ctx.strokeStyle='#d65345';ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(x,groundY-5,a.radius,12,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle='rgba(239,98,60,.38)';ctx.fillRect(x-1,20,3,groundY-34)}else{ctx.fillStyle='#ed9e39';ctx.fillRect(x-26,groundY-29,52,10);ctx.fillRect(x-5,groundY-57,10,48)}}
+    function draw(){
+      ctx.clearRect(0,0,W,H);drawBackground();drawExtraction();game.cover.forEach(drawCover);game.pickups.forEach(drawPickup);drawArtillery();
+      game.bullets.forEach(b=>{ctx.fillStyle=b.fireball?'#ff6b3d':b.heliTank?'#ffad52':b.team==='player'?'#ffe674':b.team==='tank'?'#ffad52':'#ee5b48';if(b.fireball){ctx.fillRect(sx(b.x)-4,Math.round(b.y)-4,22,18);ctx.fillStyle='#ffd15c';ctx.fillRect(sx(b.x)+3,Math.round(b.y),10,8)}else if(b.missile){ctx.fillStyle='#241710';ctx.fillRect(sx(b.x)-4,Math.round(b.y)-4,b.w+8,b.h+8);ctx.fillStyle='#ff6335';ctx.fillRect(sx(b.x),Math.round(b.y),b.w,b.h);ctx.fillStyle='#ffe08a';ctx.fillRect(sx(b.x)+6,Math.round(b.y)+4,b.w-16,5)}else if(b.missile){ctx.fillStyle='#241710';ctx.fillRect(sx(b.x)-4,Math.round(b.y)-4,b.w+8,b.h+8);ctx.fillStyle='#ff6335';ctx.fillRect(sx(b.x),Math.round(b.y),b.w,b.h);ctx.fillStyle='#ffe08a';ctx.fillRect(sx(b.x)+6,Math.round(b.y)+4,b.w-16,5)}else if(b.heliTank){ctx.fillStyle='#2a1b12';ctx.fillRect(sx(b.x)-2,Math.round(b.y)-2,b.w+4,b.h+4);ctx.fillStyle='#ffad52';ctx.fillRect(sx(b.x),Math.round(b.y),b.w,b.h);ctx.fillStyle='#ffe08a';ctx.fillRect(sx(b.x)+3,Math.round(b.y)+2,Math.max(3,b.w-8),3)}else ctx.fillRect(sx(b.x),Math.round(b.y),b.w,b.h)});
+      game.enemies.forEach(e=>e.type==='tank'?drawTank(e):drawSoldier(e,true));drawVehicle();game.allies.forEach(a=>drawSoldier(a,false));drawSoldier(game.player,false);
+      game.particles.forEach(q=>{const alpha=Math.min(1,q.life*2);ctx.globalAlpha=q.kind==='explosion'&&q.shape==='smoke'?alpha*.34:alpha;ctx.fillStyle=q.color;const px=sx(q.x),py=q.y;if(q.kind==='explosion'&&q.shape==='smoke'){ctx.beginPath();ctx.arc(px,py,q.size*1.8,0,Math.PI*2);ctx.fill()}else if(q.kind==='explosion'&&q.shape==='spark'){ctx.fillRect(px,py,Math.max(1,q.size*.7),Math.max(3,q.size*2.2))}else{ctx.fillRect(px,py,q.size,q.size)}});ctx.globalAlpha=1;
+      if(game.feedbackTime>0){ctx.font='bold 14px monospace';ctx.fillStyle=game.feedbackColor;ctx.fillText(game.feedback,30,54)}
+      if(game.deathTimer>0||game.over){ctx.fillStyle='rgba(8,12,9,.72)';ctx.fillRect(0,0,W,H);ctx.textAlign='center';ctx.font='bold 34px monospace';ctx.fillStyle=game.over?'#e96b55':'#ffe47a';ctx.fillText(game.over?'GAME OVER':'UNITÀ ABBATTUTA',W/2,H/2-8);ctx.font='bold 13px monospace';ctx.fillStyle='#f5edc9';ctx.fillText(game.over?'3 MORTI · RIAVVIA LA MISSIONE':'RESPAWN IN CORSO',W/2,H/2+22);ctx.textAlign='left'}
+    }
+    function loop(t){const dt=Math.min(.035,(t-lastTime)/1000||0);lastTime=t;update(dt);draw();requestAnimationFrame(loop)}
+    window.addEventListener('keydown',e=>{if([' ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))e.preventDefault();if(e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();restartMission();return}if(e.key.toLowerCase()==='b'&&!e.repeat){if(game.over){e.preventDefault();returnToLobby()}return}if(/^[0-9]$/.test(e.key)||e.key.toLowerCase()==='v'){e.preventDefault();if(!e.repeat){keys._fireball=true;keys._fired=false}}keys[e.key]=true});
+    window.addEventListener('keyup',e=>{if(/^[0-9]$/.test(e.key)||e.key.toLowerCase()==='v'){keys._fireball=false;keys._fired=false}keys[e.key]=false});
+    canvas.addEventListener('mousedown',e=>{if(e.button===0){e.preventDefault();mouseFiring=true;canvas.focus()}});
+    window.addEventListener('mouseup',e=>{if(e.button===0)mouseFiring=false});
+    canvas.addEventListener('mouseleave',()=>mouseFiring=false);
+    document.getElementById('start-button').addEventListener('click',startGame);
+    document.getElementById('open-armory').addEventListener('click',openArmory);
+    document.getElementById('open-skins').addEventListener('click',openSkins);
+    document.getElementById('open-recruitment').addEventListener('click',openRecruitment);
+    document.getElementById('open-vehicles').addEventListener('click',openVehicles);
+    document.getElementById('unequip-vehicle').addEventListener('click',unequipVehicle);
+    document.getElementById('close-vehicles').addEventListener('click',closeVehicles);
+    document.getElementById('close-recruitment').addEventListener('click',closeRecruitment);
+    document.querySelectorAll('[data-recruit-cost]').forEach(button=>button.addEventListener('click',()=>buyRecruit(button.dataset.recruitType)));
+    document.getElementById('close-skins').addEventListener('click',closeSkins);
+    document.getElementById('apply-skin').addEventListener('click',applySkin);
+    document.getElementById('close-armory').addEventListener('click',closeArmory);
+    Object.keys(armoryItems).forEach(name=>document.getElementById(armoryItems[name].button).addEventListener('click',()=>buyArmory(name)));
+    document.getElementById('victory-restart').addEventListener('click',startGame);
+    document.getElementById('defeat-restart').addEventListener('click',startGame);
+    document.getElementById('return-lobby').addEventListener('click',returnToLobby);
+    document.getElementById('continue-button').addEventListener('click',continueMission);
+    Object.keys(shopItems).forEach(name=>document.getElementById(shopItems[name].button).addEventListener('click',()=>buy(name)));
+    freshGame();requestAnimationFrame(loop);
+  </script>
+ 
+</body></html>

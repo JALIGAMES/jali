@@ -1,0 +1,34 @@
+VERSIONE CORRETTA DEL SITO
+
+Questa versione mette Battlefield direttamente nella cartella principale:
+- index.html
+- battlefield.html
+- style.css
+- app.js
+- downloads/
+
+In questo modo il pulsante GIOCA ORA punta semplicemente a:
+battlefield.html
+
+COME AGGIORNARE IL SITO GITHUB
+1. Apri il repository GitHub dove hai pubblicato il sito.
+2. Carica TUTTI i file di questo ZIP nella cartella principale del repository.
+3. Se GitHub chiede se sostituire index.html, conferma il nuovo file.
+4. Assicurati che nella schermata principale del repository si vedano:
+   index.html
+   battlefield.html
+   style.css
+   app.js
+   downloads
+5. Vai su Settings > Pages e verifica:
+   Source: Deploy from a branch
+   Branch: main
+   Folder: / (root)
+6. Dopo l'aggiornamento, apri il sito e fai un refresh completo:
+   Windows: CTRL + F5
+
+TEST RAPIDO
+Dal tuo sito, cliccando GIOCA ORA, l'indirizzo deve terminare con:
+.../battlefield.html
+
+Se appare una pagina 404, il file battlefield.html non è stato caricato nella radice del repository.

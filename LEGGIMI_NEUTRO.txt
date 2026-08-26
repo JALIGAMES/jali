@@ -1,0 +1,19 @@
+VERSIONE NEUTRA DEL SITO VIDEOGIOCHI
+
+Questa versione usa una grafica generica da raccolta videogiochi.
+Battlefield è presente come primo titolo, ma il resto della pagina non usa uno stile militare.
+
+PER AGGIORNARE GITHUB
+1. Estrai questo ZIP.
+2. Carica tutti i file nella radice del repository.
+3. Sostituisci almeno:
+   index.html
+   style.css
+   app.js
+4. Mantieni anche:
+   battlefield.html
+   downloads/
+5. Dopo il caricamento fai CTRL + F5 sul sito.
+
+Il link di Battlefield resta:
+battlefield.html

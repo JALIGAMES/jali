@@ -3,51 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Una raccolta di videogiochi creati da me e giocabili direttamente dal browser.">
-  <title>I miei videogiochi</title>
+  <meta name="description" content="Una raccolta di videogiochi creati da me, giocabili online o scaricabili.">
+  <title>La mia sala giochi</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="grid-bg" aria-hidden="true"></div>
-
-  <header class="site-header">
+  <header class="topbar">
     <div class="container nav">
-      <a class="brand" href="./" aria-label="Home">
-        <span class="brand-mark">◼</span>
-        <span>PIXEL VAULT</span>
-      </a>
-      <a class="nav-link" href="#giochi">GIOCHI</a>
+      <a href="./" class="logo">GAME ROOM</a>
+      <nav>
+        <a href="#giochi">Giochi</a>
+        <a href="#info">Info</a>
+      </nav>
     </div>
   </header>
 
   <main>
     <section class="hero container">
-      <div class="hero-copy">
-        <p class="eyebrow">ARCADE PERSONALE // ONLINE</p>
-        <h1>I MIEI<br><span>VIDEOGIOCHI</span></h1>
-        <p class="intro">
-          Una piccola raccolta di giochi creati da me.
-          Puoi giocarli direttamente dal browser oppure scaricarli per usarli offline.
-        </p>
-        <a class="primary-button" href="#giochi">VEDI I GIOCHI <span>↓</span></a>
+      <div class="hero-text">
+        <span class="pill">LA MIA RACCOLTA</span>
+        <h1>Videogiochi<br>creati da me</h1>
+        <p>Una pagina dove raccogliere tutti i miei giochi. Puoi provarli direttamente online oppure scaricarli per giocare offline.</p>
+        <a class="btn primary" href="#giochi">Scopri i giochi</a>
       </div>
 
-      <div class="hero-terminal" aria-label="Stato arcade">
-        <div class="terminal-bar">
-          <span></span><span></span><span></span>
-          <strong>ARCADE_STATUS.EXE</strong>
-        </div>
-        <div class="terminal-screen">
-          <p>&gt; archivio giochi inizializzato</p>
-          <p>&gt; modalità browser: <b>ONLINE</b></p>
-          <p>&gt; modalità download: <b>DISPONIBILE</b></p>
-          <p>&gt; giochi pubblicati: <b>01</b></p>
-          <div class="pixel-scene">
-            <div class="moon"></div>
-            <div class="mountains back"></div>
-            <div class="mountains front"></div>
-            <div class="soldier"></div>
-            <div class="ground"></div>
+      <div class="hero-card">
+        <div class="mini-window">
+          <div class="window-bar">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="screen">
+            <div class="pixel p1"></div>
+            <div class="pixel p2"></div>
+            <div class="pixel p3"></div>
+            <div class="pixel p4"></div>
+            <div class="pixel p5"></div>
+            <p>READY TO PLAY</p>
           </div>
         </div>
       </div>
@@ -55,87 +46,75 @@
 
     <section id="giochi" class="games-section">
       <div class="container">
-        <div class="section-heading">
+        <div class="section-title">
           <div>
-            <p class="eyebrow">LIBRERIA // 01</p>
-            <h2>SCEGLI UNA MISSIONE</h2>
+            <span class="pill">LIBRERIA</span>
+            <h2>I miei giochi</h2>
           </div>
-          <p class="section-note">Nuovi giochi potranno essere aggiunti qui.</p>
+          <p>Aggiungerò qui i prossimi titoli.</p>
         </div>
 
         <div class="games-grid">
-          <article class="game-card featured">
-            <div class="game-art battlefield-art" aria-hidden="true">
-              <div class="scanline"></div>
-              <div class="art-sun"></div>
-              <div class="art-hill h1"></div>
-              <div class="art-hill h2"></div>
-              <div class="art-tank">
-                <i></i><i></i><i></i>
-              </div>
-              <div class="art-player"></div>
-              <div class="art-ground"></div>
-              <div class="art-label">22 FRONTI</div>
+          <article class="game-card">
+            <div class="cover battlefield">
+              <span class="badge">AZIONE</span>
+              <div class="cover-title">BATTLEFIELD</div>
+              <div class="cover-subtitle">22 FRONTI</div>
             </div>
-
-            <div class="game-body">
-              <div class="game-meta">
-                <span class="status-dot"></span>
-                <span>GIOCABILE ORA</span>
-                <span class="genre">ARCADE / SHOOTER</span>
-              </div>
-              <h3>BATTLEFIELD</h3>
-              <p>
-                Attraversa 22 fronti, affronta soldati e mezzi corazzati,
-                raccogli crediti e potenzia il tuo equipaggiamento.
-              </p>
+            <div class="game-content">
+              <h3>Battlefield</h3>
+              <p>Uno shooter arcade a scorrimento con 22 fronti, armi, skin, alleati e veicoli.</p>
               <div class="tags">
-                <span>22 FRONTI</span>
-                <span>ARMI</span>
-                <span>SKIN</span>
-                <span>VEICOLI</span>
+                <span>Shooter</span>
+                <span>Arcade</span>
+                <span>Single player</span>
               </div>
               <div class="actions">
-                <a class="primary-button" href="games/battlefield/index.html">GIOCA ORA <span>▶</span></a>
-                <a class="secondary-button" href="downloads/Battlefield_22_fronti_offline.zip" download>SCARICA OFFLINE</a>
+                <a class="btn primary" href="battlefield.html">Gioca ora</a>
+                <a class="btn secondary" href="downloads/Battlefield_22_fronti_offline.zip" download>Scarica offline</a>
               </div>
             </div>
           </article>
 
           <article class="game-card placeholder">
-            <div class="placeholder-plus">+</div>
-            <p class="eyebrow">PROSSIMA USCITA</p>
-            <h3>NUOVO GIOCO</h3>
-            <p>Questo spazio è già pronto per il prossimo videogioco.</p>
+            <div class="plus">+</div>
+            <h3>Prossimo gioco</h3>
+            <p>Questo spazio è pronto per il prossimo titolo.</p>
           </article>
 
           <article class="game-card placeholder">
-            <div class="placeholder-plus">+</div>
-            <p class="eyebrow">PROSSIMA USCITA</p>
-            <h3>NUOVO GIOCO</h3>
-            <p>Aggiungi una nuova cartella e una nuova scheda quando vuoi.</p>
+            <div class="plus">+</div>
+            <h3>Prossimo gioco</h3>
+            <p>Puoi aggiungere qui un gioco completamente diverso.</p>
+          </article>
+
+          <article class="game-card placeholder">
+            <div class="plus">+</div>
+            <h3>Prossimo gioco</h3>
+            <p>La grafica del sito resta neutra e adatta a qualsiasi genere.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="about container">
-      <div>
-        <p class="eyebrow">COME FUNZIONA</p>
-        <h2>TUTTO IN UN SOLO SITO</h2>
-      </div>
-      <div class="about-grid">
-        <div><strong>01</strong><p>Il visitatore apre il sito.</p></div>
-        <div><strong>02</strong><p>Sceglie un gioco.</p></div>
-        <div><strong>03</strong><p>Gioca subito nel browser.</p></div>
-        <div><strong>04</strong><p>Oppure scarica la versione offline.</p></div>
+    <section id="info" class="info-section">
+      <div class="container info-grid">
+        <div>
+          <span class="pill">COME FUNZIONA</span>
+          <h2>Una sola pagina, tanti giochi</h2>
+        </div>
+        <div class="steps">
+          <div><strong>01</strong><span>Scegli un gioco</span></div>
+          <div><strong>02</strong><span>Aprilo nel browser</span></div>
+          <div><strong>03</strong><span>Oppure scaricalo</span></div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="container footer-inner">
-      <span>PIXEL VAULT // MY GAMES</span>
+      <span>GAME ROOM</span>
       <span id="year"></span>
     </div>
   </footer>
