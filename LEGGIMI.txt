@@ -1,0 +1,16 @@
+JALI GAMES - VERSIONE PULITA
+
+Questa versione NON contiene cartelle e NON contiene ZIP interni.
+
+Carica direttamente nella radice del repository GitHub questi file:
+- index.html
+- style.css
+- app.js
+- battlefield.html
+- micio-caffe.html
+- hamster-parkour.html
+- toy-repair.html
+- .nojekyll
+
+Il pulsante "Scarica offline" di Battlefield è stato rimosso.
+Tutti e quattro i giochi si aprono dal pulsante GIOCA.
