@@ -211,3 +211,6 @@ footer{background:var(--ink);color:white}
 .kawaii .play-button{background:#a96ae9}
 .boba .play-button{background:#ee718b}
 .cookie .play-button{background:#db863e}
+
+.kitten .cover{background:linear-gradient(145deg,#5dcfff,#8d70ff)}
+.kitten .play-button{background:#5b7fea}
